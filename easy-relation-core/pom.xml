@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.easii</groupId>
+        <artifactId>easy-relation-pom</artifactId>
+        <version>${easy-associate.version}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>easy-relation-core</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.easii</groupId>
+            <artifactId>easy-relation-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.easii</groupId>
+            <artifactId>easy-relation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
