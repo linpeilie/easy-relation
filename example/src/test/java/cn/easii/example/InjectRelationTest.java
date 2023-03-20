@@ -3,12 +3,15 @@ package cn.easii.example;
 import cn.easii.example.handler.PermissionRelationHandler;
 import cn.easii.example.handler.RoleInfoRelationHandler;
 import cn.easii.example.handler.UserInfoRelationHandler;
+import cn.easii.example.model.Order;
 import cn.easii.example.model.User;
 import cn.easii.example.model.UserQueryReq;
 import cn.easii.relation.core.InjectRelation;
 import cn.easii.relation.core.RelationHandlerRepository;
 import cn.easii.relation.core.bean.RelationHandlerMeta;
 import cn.hutool.core.date.StopWatch;
+import cn.hutool.core.lang.Assert;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +39,16 @@ class InjectRelationTest {
         user.setNickName("管理员");
         user.setCreateUsername("admin");
         return user;
+    }
+
+    @Test
+    void quickStart() {
+        Order order = new Order();
+        order.setOrderId("2f453910375641648ab3a2fc6e3328ef");
+        order.setUsername("admin");
+        injectRelation.injectRelation(order);
+        System.out.println(order);  // Order(orderId=2f453910375641648ab3a2fc6e3328ef, username=admin, nickName=管理员)
+        Assert.equals(order.getNickName(), "管理员");
     }
 
     @Test

@@ -3,6 +3,7 @@ package cn.easii.relation.core;
 import cn.easii.relation.annotation.RelationHandler;
 import cn.easii.relation.core.bean.RelationHandlerMeta;
 import cn.easii.relation.core.function.ExceptionFunction;
+import cn.easii.relation.exception.RelationException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,15 +25,16 @@ public class RelationHandlerRepository {
                 continue;
             }
             // method invoke
-            ExceptionFunction<Object, Object> methodInvoker = new ExceptionFunction<Object, Object>() {
-                @Override
-                public Object apply(final Object o) throws Exception {
-                    return method.invoke(relationService, o);
-                }
-            };
+            ExceptionFunction<Object, Object> methodInvoker = o -> method.invoke(relationService, o);
             final RelationHandlerMeta relationHandlerMeta =
                 new RelationHandlerMeta(methodInvoker, parameterTypes[0]);
-            relationHandlerMap.put(relationHandler.value(), relationHandlerMeta);
+            final RelationHandlerMeta oldRelationHandler =
+                relationHandlerMap.putIfAbsent(relationHandler.value(), relationHandlerMeta);
+            if (oldRelationHandler != null) {
+                throw new RelationException(
+                    "The duplicate relation handler [" + relationHandler.value() +
+                    "] is registered, please check the@RelationHandler annotation configuration\n");
+            }
         }
     }
 

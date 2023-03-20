@@ -8,6 +8,7 @@ import cn.easii.relation.core.bean.DynamicConditionMeta;
 import cn.easii.relation.core.bean.RelationMeta;
 import cn.easii.relation.core.utils.ReflectUtils;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,8 @@ public class RelationMetaStore {
         for (final Condition condition : conditions) {
             final DynamicConditionMeta dynamicConditionMeta = new DynamicConditionMeta();
             dynamicConditionMeta.setFieldGetter(ReflectUtils.getGetter(clazz, condition.field()));
-            dynamicConditionMeta.setParamField(condition.paramField());
+            dynamicConditionMeta.setParamField(
+                StrUtil.isEmpty(condition.paramField()) ? condition.field() : condition.paramField());
             dynamicConditionMetas.add(dynamicConditionMeta);
         }
         return dynamicConditionMetas;
