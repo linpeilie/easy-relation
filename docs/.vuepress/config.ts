@@ -39,7 +39,7 @@ export default defineUserConfig({
         }),
         searchPlugin({
             isSearchable: (page) => page.path !== '/'
-        })
+        }),
 //         googleAnalyticsPlugin({
 //             id: 'G-SXEZVNR8FZ'
 //         }),
