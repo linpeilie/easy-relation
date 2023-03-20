@@ -1,4 +1,4 @@
-package cn.easii.relation.core.exception;
+package cn.easii.relation.exception;
 
 public class RelationException extends RuntimeException {
 

@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.easii</groupId>
         <artifactId>easy-relation-plugin</artifactId>
-        <version>${easy-associate.version}</version>
+        <version>${easy-relation.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.easii</groupId>
-            <artifactId>easy-relation-api</artifactId>
+            <artifactId>easy-relation-common</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.linpeilie</groupId>

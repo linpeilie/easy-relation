@@ -1,11 +1,13 @@
-package cn.easii.relation.core.handler;
+package cn.easii.example.handler;
 
+import cn.easii.example.RelationIdentifiers;
+import cn.easii.example.model.User;
+import cn.easii.example.model.UserQueryReq;
 import cn.easii.relation.annotation.RelationHandler;
-import cn.easii.relation.core.RelationIdentifiers;
 import cn.easii.relation.core.RelationService;
-import cn.easii.relation.core.model.User;
-import cn.easii.relation.core.model.UserQueryReq;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserInfoRelationHandler implements RelationService {
 
     @RelationHandler(RelationIdentifiers.getUserByUsername)

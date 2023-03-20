@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.easii</groupId>
         <artifactId>easy-relation-pom</artifactId>
-        <version>${easy-associate.version}</version>
+        <version>${easy-relation.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -19,15 +19,11 @@
         </dependency>
         <dependency>
             <groupId>cn.easii</groupId>
-            <artifactId>easy-relation-api</artifactId>
+            <artifactId>easy-relation-common</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>

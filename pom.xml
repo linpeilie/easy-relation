@@ -6,14 +6,14 @@
 
     <groupId>cn.easii</groupId>
     <artifactId>easy-relation-pom</artifactId>
-    <version>${easy-associate.version}</version>
+    <version>${easy-relation.version}</version>
     <packaging>pom</packaging>
     <name>Easy Associate</name>
     <description>简单的对象关联</description>
     <modules>
         <module>easy-relation-core</module>
         <module>easy-relation-annotation</module>
-        <module>easy-relation-api</module>
+        <module>easy-relation-common</module>
         <module>easy-relation-plugin</module>
         <module>easy-relation-spring-boot-starter</module>
     </modules>
@@ -22,8 +22,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <easy-associate.version>1.0-SNAPSHOT</easy-associate.version>
-        <projectUrl>https://github.com/linpeilie/easy-associate.git</projectUrl>
+        <easy-relation.version>1.0-SNAPSHOT</easy-relation.version>
+        <projectUrl>https://github.com/linpeilie/easy-relation.git</projectUrl>
         <lombok.version>1.18.26</lombok.version>
         <hutool.version>5.8.15</hutool.version>
         <slf4j.version>2.0.7</slf4j.version>
@@ -44,17 +44,22 @@
             <dependency>
                 <groupId>cn.easii</groupId>
                 <artifactId>easy-relation-annotation</artifactId>
-                <version>${easy-associate.version}</version>
+                <version>${easy-relation.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.easii</groupId>
-                <artifactId>easy-relation-api</artifactId>
-                <version>${easy-associate.version}</version>
+                <artifactId>easy-relation-common</artifactId>
+                <version>${easy-relation.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.easii</groupId>
                 <artifactId>easy-relation-core</artifactId>
-                <version>${easy-associate.version}</version>
+                <version>${easy-relation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.easii</groupId>
+                <artifactId>easy-relation-mapstruct-plus</artifactId>
+                <version>${easy-relation.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>

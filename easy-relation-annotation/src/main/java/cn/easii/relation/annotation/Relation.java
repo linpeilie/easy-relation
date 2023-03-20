@@ -29,7 +29,7 @@ public @interface Relation {
      *
      * @return {@link String}
      */
-    String targetField();
+    String targetField() default "";
 
     /**
      * 关联条件
@@ -53,7 +53,7 @@ public @interface Relation {
     boolean useCache() default false;
 
     /**
-     * 缓存超时时间
+     * 缓存超时时间，单位：s
      *
      * @return int
      */

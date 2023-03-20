@@ -1,6 +1,6 @@
 package cn.easii.relation.core.utils;
 
-import cn.easii.relation.core.exception.RelationException;
+import cn.easii.relation.exception.RelationException;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import java.lang.reflect.Method;

@@ -6,11 +6,12 @@ import cn.easii.relation.core.bean.ConstantsConditionMeta;
 import cn.easii.relation.core.bean.DynamicConditionMeta;
 import cn.easii.relation.core.bean.RelationHandlerMeta;
 import cn.easii.relation.core.bean.RelationMeta;
-import cn.easii.relation.core.exception.RelationException;
+import cn.easii.relation.exception.RelationException;
 import cn.easii.relation.core.function.InnerFunction;
 import cn.easii.relation.core.utils.CollectionUtils;
 import cn.easii.relation.core.utils.ObjectUtils;
 import cn.easii.relation.core.utils.ReflectUtils;
+import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
@@ -150,8 +151,14 @@ public class InjectRelation {
     }
 
     private String getCacheKey(String handlerIdentifier, Map<String, Object> paramMap) {
-        return handlerIdentifier + StrUtil.DASHED + StrUtil.join(StrUtil.DASHED,
-            CollectionUtils.map(paramMap.entrySet(), entry -> entry.getKey() + ObjectUtils.toString(entry.getValue())));
+        StringBuilder cacheKey = new StringBuilder();
+        cacheKey.append(handlerIdentifier);
+        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+            cacheKey.append(StrUtil.DASHED)
+                .append(entry.getKey())
+                .append(ObjectUtils.toString(entry.getValue()));
+        }
+        return cacheKey.toString();
     }
 
 }
