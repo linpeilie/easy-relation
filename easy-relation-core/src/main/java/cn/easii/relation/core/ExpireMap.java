@@ -17,12 +17,12 @@ public class ExpireMap<K, V> {
         map = new ConcurrentHashMap<>();
         EXPIRE_TIME_MAP = new ConcurrentHashMap<>();
         timer = new Timer();
-        timer.schedule(new CheckKeyExpireTask(), 0, 1);
+        timer.schedule(new CheckKeyExpireTask(), 0, 100);
     }
 
     public V get(K key) {
         final Long expireTime = EXPIRE_TIME_MAP.get(key);
-        if (expireTime == null || expireTime > System.currentTimeMillis()) {
+        if (expireTime == null || expireTime < System.currentTimeMillis()) {
             return null;
         }
         return map.get(key);

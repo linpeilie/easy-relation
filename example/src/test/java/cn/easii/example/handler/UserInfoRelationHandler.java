@@ -12,6 +12,7 @@ public class UserInfoRelationHandler implements RelationService {
 
     @RelationHandler(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
+        System.out.println("req = " + req);
         if ("admin".equals(req.getUsername())) {
             final User user = new User();
             user.setUsername("admin");

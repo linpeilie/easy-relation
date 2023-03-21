@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vuepress dev docs",
+    "dev": "vuepress dev docs --clean-cache",
     "build": "vuepress build docs",
     "docs:build": "vuepress build docs",
     "docs:clean-dev": "vuepress dev docs --clean-cache",
@@ -20,6 +20,6 @@
     "vue": "^3.2.47",
     "vuepress": "2.0.0-beta.61",
     "vuepress-plugin-china-search-console": "2.1.5",
-    "vuepress-theme-hope": "2.0.0-beta.195"
+    "vuepress-theme-hope": "2.0.0-beta.185"
   }
 }

@@ -5,14 +5,10 @@ import lombok.Data;
 
 @Data
 @AutoMapMapper
-public class UserQueryReq {
+public class PermissionQueryReq {
 
     private String username;
 
-    private Long userId;
-
-    private Boolean isDeleted;
-
-    private String source;
+    private Integer state;
 
 }

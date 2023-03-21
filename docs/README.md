@@ -26,6 +26,10 @@ features:
 copyright: false
 ---
 
+## 其他开源项目
+
+- [MapStructPlus](https://mapstruct.plus)：可能是最简单、强大的 Java Bean 转换工具
+
 ## 最新版本
 
 - maven
@@ -53,10 +57,6 @@ implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', ver
 
 - 贡献代码：欢迎提交 Issue 或 Pull Requests
 - 维护文档：项目目录下的 docs 目录，欢迎参与翻译与修订
-
-## 其他开源项目
-
-- [MapStructPlus](https://mapstruct.plus)：可能是最简单、强大的 Java Bean 转换工具
 
 ## 联系我
 

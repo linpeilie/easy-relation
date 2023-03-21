@@ -47,6 +47,7 @@ export default hopeTheme({
 //       category: 'Announcements',
 //       categoryId: 'DIC_kwDOJA3-js4CU8EO'
 //     },
+    autoCatalog: true,
     copyCode: {
       showInMobile: false
     },

@@ -4,6 +4,7 @@ import cn.easii.example.handler.PermissionRelationHandler;
 import cn.easii.example.handler.RoleInfoRelationHandler;
 import cn.easii.example.handler.UserInfoRelationHandler;
 import cn.easii.example.model.Order;
+import cn.easii.example.model.PermissionQueryReq;
 import cn.easii.example.model.User;
 import cn.easii.example.model.UserQueryReq;
 import cn.easii.relation.core.InjectRelation;
@@ -87,7 +88,10 @@ class InjectRelationTest {
     private void directSet() {
         final User user = initUser();
         user.setRole(roleInfoRelationHandler.getRoleByUsername(user.getUsername()));
-        user.setPermissions(permissionRelationHandler.getPermissionsByUsername(user.getUsername()));
+        PermissionQueryReq permissionQueryReq = new PermissionQueryReq();
+        permissionQueryReq.setState(Constants.ENABLED);
+        permissionQueryReq.setUsername("admin");
+        user.setPermissions(permissionRelationHandler.getPermissionsByUsername(permissionQueryReq));
         UserQueryReq userQueryReq = new UserQueryReq();
         userQueryReq.setUsername(user.getCreateUsername());
         user.setCreateNickName(userInfoRelationHandler.getUserByUsername(userQueryReq).getNickName());

@@ -8,12 +8,17 @@ import lombok.Data;
 @Data
 public class Order {
 
+    private String source;
+
     private String orderId;
 
     private String username;
 
     @Relation(handler = RelationIdentifiers.getUserByUsername, targetField = "nickName",
-        condition = {@Condition(field = "username")})
+        condition = {
+            @Condition(field = "username"),
+            @Condition(field = "source")
+        })
     private String nickName;
 
 }

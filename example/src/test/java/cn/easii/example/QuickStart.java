@@ -31,6 +31,7 @@ public class QuickStart {
     private Order getOrder(String orderId) {
         Order order = new Order();
         order.setOrderId(orderId);
+        order.setSource("ODD");
         order.setUsername("admin");
         return order;
     }
