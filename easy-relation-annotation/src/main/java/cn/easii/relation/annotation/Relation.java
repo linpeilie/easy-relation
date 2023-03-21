@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * 关联属性 标注当前属性为关联其他对象的属性
  *
  * @author linpl
- * @date 2023/03/18
+ * @version 1.0
  */
 @Documented
 @Target({ElementType.FIELD})

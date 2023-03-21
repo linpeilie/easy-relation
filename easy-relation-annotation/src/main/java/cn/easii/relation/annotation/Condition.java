@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * 关联条件
  *
  * @author linpl
- * @date 2023/03/18
+ * @version 1.0
  */
 @Documented
 @Target({ElementType.LOCAL_VARIABLE})

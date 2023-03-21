@@ -4,7 +4,7 @@ package cn.easii.relation;
  * 缓存管理器
  *
  * @author linpl
- * @date 2023/03/18
+ * @version 1.0
  */
 public interface RelationCache {
 
