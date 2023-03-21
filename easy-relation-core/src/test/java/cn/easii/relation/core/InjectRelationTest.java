@@ -15,8 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,12 +35,18 @@ class InjectRelationTest {
     @BeforeEach
     public void before() {
         injectRelation = new InjectRelation();
-        permissionRelationHandler = new PermissionRelationHandler();
-        roleInfoRelationHandler = new RoleInfoRelationHandler();
         userInfoRelationHandler = new UserInfoRelationHandler();
-        RelationHandlerRepository.registerHandler(permissionRelationHandler);
-        RelationHandlerRepository.registerHandler(roleInfoRelationHandler);
-        RelationHandlerRepository.registerHandler(userInfoRelationHandler);
+        roleInfoRelationHandler = new RoleInfoRelationHandler();
+        permissionRelationHandler = new PermissionRelationHandler();
+        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getUserByUsername) == null) {
+            RelationHandlerRepository.registerHandler(userInfoRelationHandler);
+        }
+        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getRoleByUsername) == null) {
+            RelationHandlerRepository.registerHandler(roleInfoRelationHandler);
+        }
+        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getPermissionsByUsername) == null) {
+            RelationHandlerRepository.registerHandler(permissionRelationHandler);
+        }
     }
 
     private User initUser() {

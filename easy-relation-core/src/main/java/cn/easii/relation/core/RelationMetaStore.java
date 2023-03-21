@@ -39,6 +39,7 @@ public class RelationMetaStore {
     private static RelationMeta toMeta(Class<?> clazz, Field field, Relation relation) {
         RelationMeta relationMeta = new RelationMeta();
         relationMeta.setField(field.getName());
+        relationMeta.setFieldGetter(ReflectUtils.getGetter(clazz, field.getName()));
         relationMeta.setFieldSetter(ReflectUtils.getSetter(clazz, field.getName()));
         relationMeta.setHandlerIdentifier(relation.handler());
         relationMeta.setTargetField(relation.targetField());

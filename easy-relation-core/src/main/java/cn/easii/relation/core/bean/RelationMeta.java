@@ -19,6 +19,8 @@ public class RelationMeta implements Serializable {
 
     private String field;
 
+    private Method fieldGetter;
+
     private Method fieldSetter;
 
     private String handlerIdentifier;

@@ -5,214 +5,201 @@ category:
 - 介绍
 tag:
 - 快速开始
-description: MapStructPlus 快速开始教程 quick start
+description: EasyRelation 快速开始 QuickStart
 ---
 
-下面演示如何使用 MapStruct Plus 来映射两个对象。
+下面演示如何使用 EasyRelation 进行自动关联数据
 
-假设有两个类 `UserDto` 和 `User`，分别表示数据层对象和业务层对象：
+假设有订单类（`Order`）和用户类（`User`），订单中保存了用户名，需要关联查询用户昵称。
 
-- `UserDto`
-
+::: code-tabs#java
+@tab Order
 ```java
-public class UserDto {
-    private String username;
-    private int age;
-    private boolean young;
+@Data
+public class Order {
 
-    // getter、setter、toString、equals、hashCode
+    private String orderId;
+
+    private String username;
+
+    private String nickName;
+
 }
 ```
 
-- `User`
-
+@tab User
 ```java
+@Data
 public class User {
     private String username;
-    private int age;
-    private boolean young;
-
-    // getter、setter、toString、equals、hashCode
+    private String nickName;
 }
 ```
+:::
 
-## 非 SpringBoot 环境
+## SpringBoot
 
 ### 添加依赖
 
-引入 `mapstruct-plus` 依赖：
-
 ```xml
 <properties>
-    <mapstruct-plus.version>最新版本</mapstruct-plus.version>
+    <easy-relation.version>最新版本</easy-relation.version>
 </properties>
 <dependencies>
     <dependency>
-        <groupId>io.github.linpeilie</groupId>
-        <artifactId>mapstruct-plus</artifactId>
-        <version>{mapstruct-plus.version}</version>
+        <groupId>cn.easii</groupId>
+        <artifactId>easy-relation-spring-boot-starter</artifactId>
+        <version>${easy-relation.version}</version>
     </dependency>
 </dependencies>
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-                <annotationProcessorPaths>
-                    <path>
-                        <groupId>io.github.linpeilie</groupId>
-                        <artifactId>mapstruct-plus-processor</artifactId>
-                        <version>${mapstruct-plus.version}</version>
-                    </path>
-                </annotationProcessorPaths>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
 ```
 
-### 添加配置类
+### 配置关联关系
 
-在 Bean 对象所在模块包中，任意类上增加注解：`@ComponentModelConfig(componentModel = "default")`
-
-例如：
+在 `Order` 中指定其 `nickName` 属性需要关联查询而来，通过当前类中的 `username` 属性关联，
+这里假设查询结果是一个对象，则获取对象中的 `nickName` 属性：
 
 ```java
-@ComponentModelConfig(componentModel = "default")
-public class MapperConfiguration {
+@Data
+public class Order {
+
+    // ......
+
+    @Relation(handler = RelationIdentifiers.getUserByUsername, targetField = "nickName",
+        condition = {@Condition(field = "username")})
+    private String nickName;
+
 }
 ```
 
-### 指定对象映射关系
+### 定义用户数据关联处理器
 
-在 `User` 或者 `UserDto` 上面增加注解 —— `@AutoMapper`，并设置 `targetType` 为对方类。
-
-例如：
+这里需要定义一个类，实现 `RelationService` 接口，在其中定义获取用户信息的接口，并添加 `@RelationHandler` 注解。
 
 ```java
-@AutoMapper(target = UserDto.class)
-public class User {
-    // ...
+@Component
+public class UserInfoRelationHandler implements RelationService {
+
+    @RelationHandler(RelationIdentifiers.getUserByUsername)
+    public User getUserByUsername(UserQueryReq req) {
+        if ("admin".equals(req.getUsername())) {
+            final User user = new User();
+            user.setUsername("admin");
+            user.setNickName("管理员");
+            return user;
+        }
+        return null;
+    }
+
 }
 ```
+
+这里的 `UserQueryReq` 为用户信息查询入参，定义如下：
+
+```java
+@Data
+@AutoMapMapper
+public class UserQueryReq {
+
+    private String username;
+
+    private Long userId;
+
+    private Boolean isDeleted;
+
+}
+```
+
+### 测试
+
+```java
+@SpringBootTest
+class InjectRelationTest {
+
+    @Autowired
+    private InjectRelation injectRelation;
+
+    @Test
+    void quickStart() {
+        Order order = getOrder("2f453910375641648ab3a2fc6e3328ef");
+        injectRelation.injectRelation(order);
+        System.out.println(order);  // Order(orderId=2f453910375641648ab3a2fc6e3328ef, username=admin, nickName=管理员)
+        Assert.equals(order.getNickName(), "管理员");
+    }
+
+    private Order getOrder(String orderId) {
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setUsername("admin");
+        return order;
+    }
+
+}
+```
+
+## 非 SpringBoot
+
+### 添加依赖
+
+```xml
+<properties>
+    <easy-relation.version>最新版本</easy-relation.version>
+</properties>
+<dependencies>
+    <dependency>
+        <groupId>cn.easii</groupId>
+        <artifactId>easy-relation-core</artifactId>
+        <version>${easy-relation.version}</version>
+    </dependency>
+</dependencies>
+```
+
+### 配置关联关系
+
+同[SpringBoot 环境下配置关联关系](#配置关联关系)
+
+### 定义用户数据关联处理器
+
+同[SpringBoot 环境下定义用户数据关联处理器](#定义用户数据关联处理器)
 
 ### 测试
 
 ```java
 public class QuickStart {
 
-    private static Converter converter = new Converter();
+    private InjectRelation injectRelation;
 
-    public static void main(String[] args) {
-        User user = new User();
-        user.setUsername("jack");
-        user.setAge(23);
-        user.setYoung(false);
-
-        UserDto userDto = converter.convert(user, UserDto.class);
-        System.out.println(userDto);    // UserDto{username='jack', age=23, young=false}
-
-        assert user.getUsername().equals(userDto.getUsername());
-        assert user.getAge() == userDto.getAge();
-        assert user.isYoung() == userDto.isYoung();
-
-        User newUser = converter.convert(userDto, User.class);
-
-        System.out.println(newUser);    // User{username='jack', age=23, young=false}
-
-        assert user.getUsername().equals(newUser.getUsername());
-        assert user.getAge() == newUser.getAge();
-        assert user.isYoung() == newUser.isYoung();
+    @BeforeEach
+    public void before() {
+        // 注册用户信息获取接口
+        RelationHandlerRepository.registerHandler(new UserInfoRelationHandler());
+        injectRelation = new InjectRelation();
     }
-
-}
-```
-
-## SpringBoot 环境
-
-### 添加依赖
-
-引入 `mapstruct-plus-spring-boot-starter` 依赖：
-
-```xml
-<properties>
-    <mapstruct-plus.version>最新版本</mapstruct-plus.version>
-</properties>
-<dependencies>
-    <dependency>
-        <groupId>io.github.linpeilie</groupId>
-        <artifactId>mapstruct-plus-spring-boot-starter</artifactId>
-        <version>${mapstruct-plus.version}</version>
-    </dependency>
-</dependencies>
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-                <annotationProcessorPaths>
-                    <path>
-                        <groupId>io.github.linpeilie</groupId>
-                        <artifactId>mapstruct-plus-processor</artifactId>
-                        <version>${mapstruct-plus.version}</version>
-                    </path>
-                </annotationProcessorPaths>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
-```
-
-### 指定对象映射关系
-
-同非 SpringBoot 环境
-
-### 测试
-
-```java
-@SpringBootTest
-public class QuickStartTest {
-
-    @Autowired
-    private Converter converter;
 
     @Test
-    public void test() {
-        User user = new User();
-        user.setUsername("jack");
-        user.setAge(23);
-        user.setYoung(false);
+    public void quickStart() {
+        // 获取 order 信息
+        final Order order = getOrder("eb35e18caa552284b39d427c1e06f9f7");
+        injectRelation.injectRelation(order);
+        System.out.println(order);  // Order(orderId=eb35e18caa552284b39d427c1e06f9f7, username=admin, nickName=管理员)
+        Assert.equals(order.getNickName(), "管理员");
+    }
 
-        UserDto userDto = converter.convert(user, UserDto.class);
-        System.out.println(userDto);    // UserDto{username='jack', age=23, young=false}
-
-        assert user.getUsername().equals(userDto.getUsername());
-        assert user.getAge() == userDto.getAge();
-        assert user.isYoung() == userDto.isYoung();
-
-        User newUser = converter.convert(userDto, User.class);
-
-        System.out.println(newUser);    // User{username='jack', age=23, young=false}
-
-        assert user.getUsername().equals(newUser.getUsername());
-        assert user.getAge() == newUser.getAge();
-        assert user.isYoung() == newUser.isYoung();
+    private Order getOrder(String orderId) {
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setUsername("admin");
+        return order;
     }
 
 }
 ```
 
-## 小结
+## 总结
 
-引入依赖后，使用 Mapstruct Plus 步骤非常简单。
+使用 EasyRelation 时，基本分为三步：
 
-1. 给需要转换的类添加 `AutoMapper` 注解
-2. 获取 `Converter` 实例，调用 `convert` 方法即可
+1. 在对象中使用 `@Relation` 定义关联关系
+2. 定义关联数据获取接口，在方法上添加 `@RelationHandler`，非 SpringBoot 环境下，还需要手动注入当前接口的实例到 `RelationHandlerRepository`
+3. 获取 `InjectRelation` 实例，调用 `injectRelation` 方法，自动实现关联数据注入
+

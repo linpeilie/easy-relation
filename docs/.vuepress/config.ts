@@ -9,6 +9,8 @@ import theme from "./theme.js";
 export default defineUserConfig({
     base: "/",
 
+    port: 4008,
+
     head: [
 //         ['script', {}, `
 //             var _hmt = _hmt || [];

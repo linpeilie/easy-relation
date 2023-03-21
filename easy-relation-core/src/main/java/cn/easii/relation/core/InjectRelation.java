@@ -92,6 +92,10 @@ public class InjectRelation {
     }
 
     private <T> void inject(T t, RelationMeta relationMeta) throws Exception {
+        // 如果已经有值，则不再关联查询
+        if (relationMeta.getFieldGetter().invoke(t) != null) {
+            return;
+        }
         // 初始化参数
         Map<String, Object> paramMap = new HashMap<>();
         for (DynamicConditionMeta condition : relationMeta.getConditions()) {
