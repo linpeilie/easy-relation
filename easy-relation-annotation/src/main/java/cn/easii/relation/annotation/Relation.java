@@ -60,10 +60,9 @@ public @interface Relation {
     int cacheTimeout() default 300;
 
     /**
-     * 抛出异常
+     * 当数据关联出现异常时的处理策略，默认在 RelationProperties 配置
      *
-     * @return boolean
+     * @return {@link RelationExceptionStrategy}
      */
-    boolean throwException() default false;
-
+    RelationExceptionStrategy exceptionStrategy() default RelationExceptionStrategy.DEFAULT;
 }

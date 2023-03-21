@@ -1,5 +1,6 @@
 package cn.easii.relation.core.bean;
 
+import cn.easii.relation.annotation.RelationExceptionStrategy;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -35,6 +36,6 @@ public class RelationMeta implements Serializable {
 
     private int cacheTimeout;
 
-    private boolean throwException;
+    private RelationExceptionStrategy exceptionStrategy;
 
 }

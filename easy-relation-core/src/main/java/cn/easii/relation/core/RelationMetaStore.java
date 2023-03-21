@@ -47,7 +47,7 @@ public class RelationMetaStore {
         relationMeta.setConstantsConditions(buildConditions(relation.constantsCondition()));
         relationMeta.setUseCache(relation.useCache());
         relationMeta.setCacheTimeout(relation.cacheTimeout());
-        relationMeta.setThrowException(relation.throwException());
+        relationMeta.setExceptionStrategy(relation.exceptionStrategy());
         return relationMeta;
     }
 

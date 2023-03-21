@@ -1,7 +1,7 @@
 package cn.easii.relation.msp;
 
 import cn.easii.relation.AbstractMapToBeanHandle;
-import cn.easii.relation.MapToBeanHandle;
+import cn.hutool.core.util.ReflectUtil;
 import io.github.linpeilie.Converter;
 import java.util.Map;
 
@@ -15,6 +15,7 @@ public class MapStructPlusMapToBeanHandle extends AbstractMapToBeanHandle {
 
     @Override
     public <P> P toBean(final Map<String, Object> map, final Class<P> clazz) {
-        return converter.convert(map, clazz);
+        final P obj = converter.convert(map, clazz);
+        return obj == null ?  ReflectUtil.newInstance(clazz) : obj;
     }
 }

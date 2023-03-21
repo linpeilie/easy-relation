@@ -1,0 +1,3 @@
+easy:
+  relation:
+    default-exception-strategy: WARN

@@ -2,10 +2,13 @@ package cn.easii.relation.core;
 
 import cn.easii.relation.MapToBeanHandle;
 import cn.easii.relation.RelationCache;
+import cn.easii.relation.annotation.Relation;
+import cn.easii.relation.annotation.RelationExceptionStrategy;
 import cn.easii.relation.core.bean.ConstantsConditionMeta;
 import cn.easii.relation.core.bean.DynamicConditionMeta;
 import cn.easii.relation.core.bean.RelationHandlerMeta;
 import cn.easii.relation.core.bean.RelationMeta;
+import cn.easii.relation.core.properties.RelationProperties;
 import cn.easii.relation.exception.RelationException;
 import cn.easii.relation.core.function.InnerFunction;
 import cn.easii.relation.core.utils.CollectionUtils;
@@ -31,21 +34,24 @@ public class InjectRelation {
 
     private final MapToBeanHandle mapToBeanHandle;
 
+    private final RelationProperties relationProperties;
+
     public InjectRelation() {
-        this(new DefaultRelationCache(), new JsonMapToBeanHandle());
+        this(new DefaultRelationCache(), new JsonMapToBeanHandle(), new RelationProperties());
     }
 
     public InjectRelation(final RelationCache relationCache) {
-        this(relationCache, new JsonMapToBeanHandle());
+        this(relationCache, new JsonMapToBeanHandle(), new RelationProperties());
     }
 
     public InjectRelation(final MapToBeanHandle mapToBeanHandle) {
-        this(new DefaultRelationCache(), mapToBeanHandle);
+        this(new DefaultRelationCache(), mapToBeanHandle, new RelationProperties());
     }
 
-    public InjectRelation(final RelationCache relationCache, final MapToBeanHandle mapToBeanHandle) {
+    public InjectRelation(final RelationCache relationCache, final MapToBeanHandle mapToBeanHandle, final RelationProperties relationProperties) {
         this.relationCache = relationCache;
         this.mapToBeanHandle = mapToBeanHandle;
+        this.relationProperties = relationProperties;
     }
 
     public <T> void injectRelation(T t, String... relationFields) {
@@ -81,13 +87,27 @@ public class InjectRelation {
             try {
                 inject(t, relationMeta);
             } catch (Exception e) {
-                if (relationMeta.isThrowException()) {
-                    throw new RelationException(e);
-                } else {
-                    log.warn("an exception occurred while getting the relation data, error info : {}",
-                        ExceptionUtil.stacktraceToString(e));
-                }
+                handleException(relationMeta.getExceptionStrategy(), e);
             }
+        }
+    }
+
+    private void handleException(final RelationExceptionStrategy exceptionStrategy, final Exception e) {
+        switch (exceptionStrategy) {
+            case IGNORE:
+                break;
+            case WARN:
+                log.warn("an exception occurred while getting the relation data, error info : {}",
+                    ExceptionUtil.stacktraceToString(e));
+                break;
+            case THROW:
+                log.error("an exception occurred while getting the relation data, error info", e);
+                throw new RelationException(e);
+            default:
+                if (relationProperties.getDefaultExceptionStrategy() != RelationExceptionStrategy.DEFAULT) {
+                    handleException(relationProperties.getDefaultExceptionStrategy(), e);
+                }
+                break;
         }
     }
 
