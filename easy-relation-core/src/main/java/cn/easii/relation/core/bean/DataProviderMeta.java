@@ -7,9 +7,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RelationHandlerMeta implements Serializable {
+public class DataProviderMeta implements Serializable {
 
-    private ExceptionFunction<Object, Object> handlerFunction;
+    private ExceptionFunction<Object, Object> function;
 
     private Class<?> parameterClass;
 

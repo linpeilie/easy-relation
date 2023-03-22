@@ -1,20 +1,18 @@
 package cn.easii.example;
 
-import cn.easii.example.handler.PermissionRelationHandler;
-import cn.easii.example.handler.RoleInfoRelationHandler;
-import cn.easii.example.handler.UserInfoRelationHandler;
+import cn.easii.example.handler.PermissionDataProviderHandler;
+import cn.easii.example.handler.RoleInfoDataProviderHandler;
+import cn.easii.example.handler.UserInfoDataProviderHandler;
 import cn.easii.example.model.Order;
 import cn.easii.example.model.PermissionQueryReq;
 import cn.easii.example.model.User;
 import cn.easii.example.model.UserQueryReq;
+import cn.easii.relation.core.DataProviderRepository;
 import cn.easii.relation.core.InjectRelation;
-import cn.easii.relation.core.RelationHandlerRepository;
-import cn.easii.relation.core.bean.RelationHandlerMeta;
+import cn.easii.relation.core.bean.DataProviderMeta;
 import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.lang.Assert;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,13 +24,13 @@ class InjectRelationTest {
     private InjectRelation injectRelation;
 
     @Autowired
-    private PermissionRelationHandler permissionRelationHandler;
+    private PermissionDataProviderHandler permissionRelationHandler;
 
     @Autowired
-    private RoleInfoRelationHandler roleInfoRelationHandler;
+    private RoleInfoDataProviderHandler roleInfoRelationHandler;
 
     @Autowired
-    private UserInfoRelationHandler userInfoRelationHandler;
+    private UserInfoDataProviderHandler userInfoRelationHandler;
 
     private User initUser() {
         User user = new User();
@@ -76,10 +74,10 @@ class InjectRelationTest {
             injectRelationSet();
         }
         stopWatch.stop();
-        final RelationHandlerMeta handler = RelationHandlerRepository.getHandler(RelationIdentifiers.getRoleByUsername);
+        final DataProviderMeta handler = DataProviderRepository.getDataProvider(RelationIdentifiers.getRoleByUsername);
         stopWatch.start("invoke handler");
         for (int i = 0; i < 1000000; i++) {
-            handler.getHandlerFunction().apply("admin");
+            handler.getFunction().apply("admin");
         }
         stopWatch.stop();
         System.out.println(stopWatch.prettyPrint(TimeUnit.MILLISECONDS));

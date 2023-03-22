@@ -2,19 +2,16 @@ package cn.easii.relation.core;
 
 import cn.easii.relation.MapToBeanHandle;
 import cn.easii.relation.RelationCache;
-import cn.easii.relation.annotation.Relation;
 import cn.easii.relation.annotation.RelationExceptionStrategy;
 import cn.easii.relation.core.bean.ConstantsConditionMeta;
 import cn.easii.relation.core.bean.DynamicConditionMeta;
-import cn.easii.relation.core.bean.RelationHandlerMeta;
+import cn.easii.relation.core.bean.DataProviderMeta;
 import cn.easii.relation.core.bean.RelationMeta;
-import cn.easii.relation.core.properties.RelationProperties;
+import cn.easii.relation.properties.RelationProperties;
 import cn.easii.relation.exception.RelationException;
 import cn.easii.relation.core.function.InnerFunction;
-import cn.easii.relation.core.utils.CollectionUtils;
 import cn.easii.relation.core.utils.ObjectUtils;
 import cn.easii.relation.core.utils.ReflectUtils;
-import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
@@ -48,7 +45,9 @@ public class InjectRelation {
         this(new DefaultRelationCache(), mapToBeanHandle, new RelationProperties());
     }
 
-    public InjectRelation(final RelationCache relationCache, final MapToBeanHandle mapToBeanHandle, final RelationProperties relationProperties) {
+    public InjectRelation(final RelationCache relationCache,
+        final MapToBeanHandle mapToBeanHandle,
+        final RelationProperties relationProperties) {
         this.relationCache = relationCache;
         this.mapToBeanHandle = mapToBeanHandle;
         this.relationProperties = relationProperties;
@@ -142,14 +141,14 @@ public class InjectRelation {
             }
         }
         // 查询
-        final RelationHandlerMeta relationHandler =
-            RelationHandlerRepository.getHandler(relationMeta.getHandlerIdentifier());
+        final DataProviderMeta relationHandler =
+            DataProviderRepository.getDataProvider(relationMeta.getHandlerIdentifier());
         if (relationHandler == null) {
             throw new RelationException("cannot find relation handler by " + relationMeta.getHandlerIdentifier());
         }
         // 映射参数
         final Object param = mapToBeanHandle.mapToBean(paramMap, relationHandler.getParameterClass());
-        final Object result = relationHandler.getHandlerFunction().apply(param);
+        final Object result = relationHandler.getFunction().apply(param);
         // 保存一级缓存
         tempMap.put(cacheKey, result);
         if (relationMeta.isUseCache()) {
@@ -159,19 +158,17 @@ public class InjectRelation {
         if (result == null) {
             return;
         }
-        final String targetField = relationMeta.getTargetField();
-        if (StrUtil.isNotEmpty(targetField)) {
-            final Method getter = ReflectUtils.getGetter(result.getClass(), targetField);
-            final Object fieldValue = getter.invoke(result);
-            handleResult(t, fieldValue, relationMeta);
-        } else {
-            handleResult(t, result, relationMeta);
-        }
+        handleResult(t, result, relationMeta);
     }
 
     private <T> void handleResult(T t, Object result, RelationMeta relationMeta)
         throws InvocationTargetException, IllegalAccessException {
-        relationMeta.getFieldSetter().invoke(t, result);
+        Object r = result;
+        if (relationMeta.getTargetField() != null && !relationMeta.getTargetField().isEmpty()) {
+            final Method getter = ReflectUtils.getGetter(result.getClass(), relationMeta.getTargetField());
+            r = getter.invoke(result);
+        }
+        relationMeta.getFieldSetter().invoke(t, r);
     }
 
     private String getCacheKey(String handlerIdentifier, Map<String, Object> paramMap) {

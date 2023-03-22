@@ -1,7 +1,7 @@
 package cn.easii.relation;
 
-import cn.easii.relation.core.RelationHandlerRepository;
-import cn.easii.relation.core.RelationService;
+import cn.easii.relation.core.DataProviderRepository;
+import cn.easii.relation.core.DataProviderService;
 import java.util.Map;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -10,16 +10,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({EasyRelationHandlerInitializationConfiguration.Register.class})
-public class EasyRelationHandlerInitializationConfiguration {
+@Import({EasyDataProviderInitializationConfiguration.Register.class})
+public class EasyDataProviderInitializationConfiguration {
 
     static class Register implements BeanFactoryPostProcessor {
         @Override
         public void postProcessBeanFactory(final ConfigurableListableBeanFactory configurableListableBeanFactory)
             throws BeansException {
-            final Map<String, RelationService> relationService =
-                configurableListableBeanFactory.getBeansOfType(RelationService.class);
-            relationService.values().forEach(RelationHandlerRepository::registerHandler);
+            final Map<String, DataProviderService> relationService =
+                configurableListableBeanFactory.getBeansOfType(DataProviderService.class);
+            relationService.values().forEach(DataProviderRepository::registerProvider);
         }
     }
 

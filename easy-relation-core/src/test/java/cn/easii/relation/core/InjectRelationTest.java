@@ -1,51 +1,40 @@
 package cn.easii.relation.core;
 
-import cn.easii.relation.MapToBeanHandle;
-import cn.easii.relation.core.bean.DynamicConditionMeta;
-import cn.easii.relation.core.bean.RelationHandlerMeta;
-import cn.easii.relation.core.bean.RelationMeta;
-import cn.easii.relation.core.handler.PermissionRelationHandler;
-import cn.easii.relation.core.handler.RoleInfoRelationHandler;
-import cn.easii.relation.core.handler.UserInfoRelationHandler;
+import cn.easii.relation.core.bean.DataProviderMeta;
+import cn.easii.relation.core.handler.PermissionDataProviderHandler;
+import cn.easii.relation.core.handler.RoleInfoDataProviderHandler;
+import cn.easii.relation.core.handler.UserInfoDataProviderHandler;
 import cn.easii.relation.core.model.User;
 import cn.easii.relation.core.model.UserQueryReq;
 import cn.hutool.core.date.StopWatch;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class InjectRelationTest {
 
     private InjectRelation injectRelation;
 
-    private PermissionRelationHandler permissionRelationHandler;
+    private PermissionDataProviderHandler permissionRelationHandler;
 
-    private RoleInfoRelationHandler roleInfoRelationHandler;
+    private RoleInfoDataProviderHandler roleInfoRelationHandler;
 
-    private UserInfoRelationHandler userInfoRelationHandler;
+    private UserInfoDataProviderHandler userInfoRelationHandler;
 
     @BeforeEach
     public void before() {
         injectRelation = new InjectRelation();
-        userInfoRelationHandler = new UserInfoRelationHandler();
-        roleInfoRelationHandler = new RoleInfoRelationHandler();
-        permissionRelationHandler = new PermissionRelationHandler();
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getUserByUsername) == null) {
-            RelationHandlerRepository.registerHandler(userInfoRelationHandler);
+        userInfoRelationHandler = new UserInfoDataProviderHandler();
+        roleInfoRelationHandler = new RoleInfoDataProviderHandler();
+        permissionRelationHandler = new PermissionDataProviderHandler();
+        if (DataProviderRepository.getDataProvider(RelationIdentifiers.getUserByUsername) == null) {
+            DataProviderRepository.registerProvider(userInfoRelationHandler);
         }
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getRoleByUsername) == null) {
-            RelationHandlerRepository.registerHandler(roleInfoRelationHandler);
+        if (DataProviderRepository.getDataProvider(RelationIdentifiers.getRoleByUsername) == null) {
+            DataProviderRepository.registerProvider(roleInfoRelationHandler);
         }
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getPermissionsByUsername) == null) {
-            RelationHandlerRepository.registerHandler(permissionRelationHandler);
+        if (DataProviderRepository.getDataProvider(RelationIdentifiers.getPermissionsByUsername) == null) {
+            DataProviderRepository.registerProvider(permissionRelationHandler);
         }
     }
 
@@ -84,10 +73,10 @@ class InjectRelationTest {
             injectRelationSet();
         }
         stopWatch.stop();
-        final RelationHandlerMeta handler = RelationHandlerRepository.getHandler(RelationIdentifiers.getRoleByUsername);
+        final DataProviderMeta handler = DataProviderRepository.getDataProvider(RelationIdentifiers.getRoleByUsername);
         stopWatch.start("invoke handler");
         for (int i = 0; i < 1000000; i++) {
-            handler.getHandlerFunction().apply("admin");
+            handler.getFunction().apply("admin");
         }
         stopWatch.stop();
         System.out.println(stopWatch.prettyPrint(TimeUnit.MILLISECONDS));

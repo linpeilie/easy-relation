@@ -3,7 +3,7 @@ title: 配置关联关系
 order: 1
 category:
 - 指南
-description: EasyRelation 配置关联关系 ConfigureRelation 指南
+description: EasyRelation 配置关联关系 ConfigureRelation 指南 Guide
 ---
 
 ## 基础配置
@@ -27,7 +27,7 @@ public class User {
 ```
 
 上面的例子中，表示 `User` 中的 `role` 属性，需要通过唯一标识为 `getRoleByUsername`
-的关联处理器（被 `@RelationHandler` 注解标注的方法）来获取，且使用当前对象中的 `username` 属性作为关联条件。
+的数据提供者（被 `@DataProvider` 注解标注的方法）来获取，且使用当前对象中的 `username` 属性作为关联条件。
 
 ## 关联条件配置
 
@@ -87,12 +87,12 @@ public class UserQueryReq {
 
 }
 ```
-@tab UserInfoRelationHandler
+@tab UserInfoDataProvider
 ```java
 @Component
-public class UserInfoRelationHandler implements RelationService {
+public class UserInfoDataProvider implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getUserByUsername)
+    @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
         System.out.println("req = " + req);
         if ("admin".equals(req.getUsername())) {
@@ -115,7 +115,7 @@ public class QuickStart {
     @BeforeEach
     public void before() {
         // 注册用户信息获取接口
-        RelationHandlerRepository.registerHandler(new UserInfoRelationHandler());
+        DataProviderRepository.registerHandler(new UserInfoDataProvider());
         injectRelation = new InjectRelation();
     }
 
@@ -182,12 +182,12 @@ public class PermissionQueryReq {
 }
 ```
 
-@tab PermissionRelationHandler
+@tab PermissionDataProvider
 ```java
 @Component
-public class PermissionRelationHandler implements RelationService {
+public class PermissionDataProvider implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getPermissionsByUsername)
+    @DataProvider(RelationIdentifiers.getPermissionsByUsername)
     public List<Permission> getPermissionsByUsername(PermissionQueryReq permissionQueryReq) {
         System.out.println("permissionQueryReq:" + permissionQueryReq);
         if (!Constants.ENABLED.equals(permissionQueryReq.getState())) {
@@ -251,7 +251,7 @@ User(username=admin, nickName=管理员, icon=null, role=Role(roleId=100001, rol
 有的时候，在关联查询时，只有一个参数即可查出，不想因此建一个查询入参对象。框架针对这种情况做了特殊处理。
 
 当满足以下条件：
-1. 关联处理器方法入参只有一个，且类型为 `String`、`Integer`、`Long` 任意一种；
+1. 数据提供者方法入参只有一个，且类型为 `String`、`Integer`、`Long` 任意一种；
 2. 类型中配置的关联关系只有一个关联条件。
 
 例如：用户（`User`）模型中需要关联角色（`Role`），这里只想根据 `username` 来查询相应的角色信息。
@@ -270,12 +270,12 @@ public class User {
 }
 ```
 
-@tab RoleInfoRelationHandler
+@tab RoleInfoDataProvider
 ```java
 @Component
-public class RoleInfoRelationHandler implements RelationService {
+public class RoleInfoDataProvider implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getRoleByUsername)
+    @DataProvider(RelationIdentifiers.getRoleByUsername)
     public Role getRoleByUsername(String username) {
         if ("admin".equals(username)) {
             final Role role = new Role();
@@ -322,7 +322,7 @@ class InjectRelationTest {
 针对这种场景，在 `@Relation` 中提供了一个配置 —— `targetField`，该属性可以配置，获取到关联对象的具体属性值。
 
 例如[快速开始](/introduction/quick-start.html)中，订单模型中需要根据 `username` 关联查询 `nickName`，
-但提供的关联处理器返回的是 `User` 类，所以这里需要指定 `targetField` 为 `User#nickName`。
+但提供的数据提供者返回的是 `User` 类，所以这里需要指定 `targetField` 为 `User#nickName`。
 
 这里需要注意，当需要从一个对象模型中关联多个对象时，并不会查询多次。例如，需要关联用户昵称和用户头像，只能查询一次。
 详情可以查看[缓存](/guide/cache.html)。
@@ -360,11 +360,11 @@ public class Article {
 }
 ```
 
-@tab UserInfoRelationHandler
+@tab UserInfoDataProvider
 ```java
-public class UserInfoRelationHandler implements RelationService {
+public class UserInfoDataProvider implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getUserByUsername)
+    @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
         System.out.println(DateUtil.now() + "req : " + req);
         if ("admin".equals(req.getUsername())) {
@@ -385,14 +385,14 @@ public class CacheTest {
 
     private InjectRelation injectRelation;
 
-    private UserInfoRelationHandler userInfoRelationHandler;
+    private UserInfoDataProvider userInfoDataProvider;
 
     @BeforeEach
     public void before() {
         injectRelation = new InjectRelation();
-        userInfoRelationHandler = new UserInfoRelationHandler();
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getUserByUsername) == null) {
-            RelationHandlerRepository.registerHandler(userInfoRelationHandler);
+        userInfoDataProvider = new UserInfoDataProvider();
+        if (DataProviderRepository.getHandler(RelationIdentifiers.getUserByUsername) == null) {
+            DataProviderRepository.registerHandler(userInfoDataProvider);
         }
     }
 
@@ -435,10 +435,10 @@ Article(content=EasyRelation是一个简单、快速、强大的数据自动关�
 
 `@Relation` 注解中提供了 `exceptionStrategy` 属性，用来配置关联数据发生异常时的处理策略，默认由 `RelationProperties` 指定（当前类中的默认值为抛出异常）。
 
-基于前面的示例，在 `UserInfoRelationHandler` 中增加判断，当传入 `username` 为 `null` 时，则抛出异常：
+基于前面的示例，在 `UserInfoDataProvider` 中增加判断，当传入 `username` 为 `null` 时，则抛出异常：
 
 ```java
-@RelationHandler(RelationIdentifiers.getUserByUsername)
+@DataProvider(RelationIdentifiers.getUserByUsername)
 public User getUserByUsername(UserQueryReq req) {
     System.out.println(DateUtil.now() + "req : " + req);
     if (StrUtil.isEmpty(req.getUsername())) {
@@ -466,6 +466,7 @@ void testThrowException() {
 
 执行后，控制台打印如下：
 
+::: details 控制台打印信息
 ```
 2023-03-21 22:26:28req : UserQueryReq(username=null, userId=null, isDeleted=null)
 
@@ -553,14 +554,15 @@ Caused by: java.lang.reflect.InvocationTargetException
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at cn.easii.relation.core.RelationHandlerRepository.lambda$registerHandler$0(RelationHandlerRepository.java:28)
+	at cn.easii.relation.core.DataProviderRepository.lambda$registerHandler$0(DataProviderRepository.java:28)
 	at cn.easii.relation.core.InjectRelation.inject(InjectRelation.java:152)
 	at cn.easii.relation.core.InjectRelation.injectOn(InjectRelation.java:88)
 	... 74 more
 Caused by: java.lang.IllegalArgumentException: username is empty
-	at cn.easii.relation.core.handler.UserInfoRelationHandler.getUserByUsername(UserInfoRelationHandler.java:17)
+	at cn.easii.relation.core.handler.UserInfoDataProvider.getUserByUsername(UserInfoDataProvider.java:17)
 	... 81 more
 ```
+:::
 
 当使用 SpringBoot 环境时，可以在配置文件中配置该默认值，例如可以指定为警告：
 
@@ -572,6 +574,7 @@ easy:
 
 在 SpringBoot 环境中执行测试方法，控制台打印如下：
 
+::: details 控制台打印信息
 ```java
 req = UserQueryReq(username=null, userId=null, isDeleted=null, source=null)
 2023-03-21T22:36:33.243+08:00  WARN 14981 --- [           main] cn.easii.relation.core.InjectRelation    : an exception occurred while getting the relation data, error info : java.lang.reflect.InvocationTargetException
@@ -579,7 +582,7 @@ req = UserQueryReq(username=null, userId=null, isDeleted=null, source=null)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at cn.easii.relation.core.RelationHandlerRepository.lambda$registerHandler$0(RelationHandlerRepository.java:28)
+	at cn.easii.relation.core.DataProviderRepository.lambda$registerHandler$0(DataProviderRepository.java:28)
 	at cn.easii.relation.core.InjectRelation.inject(InjectRelation.java:152)
 	at cn.easii.relation.core.InjectRelation.injectOn(InjectRelation.java:88)
 	at cn.easii.relation.core.InjectRelation.lambda$injectRelation$0(InjectRelation.java:58)
@@ -606,4 +609,4 @@ req = UserQueryReq(username=null, userId=null, isDeleted=null, source=null)
 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor
 ```
-
+:::

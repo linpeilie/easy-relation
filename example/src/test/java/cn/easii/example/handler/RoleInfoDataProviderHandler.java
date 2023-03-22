@@ -2,14 +2,14 @@ package cn.easii.example.handler;
 
 import cn.easii.example.RelationIdentifiers;
 import cn.easii.example.model.Role;
-import cn.easii.relation.annotation.RelationHandler;
-import cn.easii.relation.core.RelationService;
+import cn.easii.relation.annotation.DataProvider;
+import cn.easii.relation.core.DataProviderService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleInfoRelationHandler implements RelationService {
+public class RoleInfoDataProviderHandler implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getRoleByUsername)
+    @DataProvider(RelationIdentifiers.getRoleByUsername)
     public Role getRoleByUsername(String username) {
         if ("admin".equals(username)) {
             final Role role = new Role();

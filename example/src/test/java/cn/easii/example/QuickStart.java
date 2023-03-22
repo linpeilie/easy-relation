@@ -1,9 +1,9 @@
 package cn.easii.example;
 
-import cn.easii.example.handler.UserInfoRelationHandler;
+import cn.easii.example.handler.UserInfoDataProviderHandler;
 import cn.easii.example.model.Order;
+import cn.easii.relation.core.DataProviderRepository;
 import cn.easii.relation.core.InjectRelation;
-import cn.easii.relation.core.RelationHandlerRepository;
 import cn.hutool.core.lang.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ public class QuickStart {
     @BeforeEach
     public void before() {
         // 注册用户信息获取接口
-        RelationHandlerRepository.registerHandler(new UserInfoRelationHandler());
+        DataProviderRepository.registerProvider(new UserInfoDataProviderHandler());
         injectRelation = new InjectRelation();
     }
 

@@ -1,9 +1,9 @@
 package cn.easii.example;
 
-import cn.easii.example.handler.UserInfoRelationHandler;
+import cn.easii.example.handler.UserInfoDataProviderHandler;
 import cn.easii.example.model.Article;
+import cn.easii.relation.core.DataProviderRepository;
 import cn.easii.relation.core.InjectRelation;
-import cn.easii.relation.core.RelationHandlerRepository;
 import cn.hutool.core.lang.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,12 +17,12 @@ public class ArticleTest {
     private InjectRelation injectRelation;
 
     @Autowired
-    private UserInfoRelationHandler userInfoRelationHandler;
+    private UserInfoDataProviderHandler userInfoRelationHandler;
 
     @BeforeEach
     public void before() {
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getUserByUsername) == null) {
-            RelationHandlerRepository.registerHandler(userInfoRelationHandler);
+        if (DataProviderRepository.getDataProvider(RelationIdentifiers.getUserByUsername) == null) {
+            DataProviderRepository.registerProvider(userInfoRelationHandler);
         }
     }
 

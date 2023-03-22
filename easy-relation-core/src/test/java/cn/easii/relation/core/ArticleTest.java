@@ -1,8 +1,8 @@
 package cn.easii.relation.core;
 
-import cn.easii.relation.core.handler.PermissionRelationHandler;
-import cn.easii.relation.core.handler.RoleInfoRelationHandler;
-import cn.easii.relation.core.handler.UserInfoRelationHandler;
+import cn.easii.relation.core.handler.PermissionDataProviderHandler;
+import cn.easii.relation.core.handler.RoleInfoDataProviderHandler;
+import cn.easii.relation.core.handler.UserInfoDataProviderHandler;
 import cn.easii.relation.core.model.Article;
 import cn.hutool.core.lang.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,26 +12,26 @@ public class ArticleTest {
 
     private InjectRelation injectRelation;
 
-    private PermissionRelationHandler permissionRelationHandler;
+    private PermissionDataProviderHandler permissionRelationHandler;
 
-    private RoleInfoRelationHandler roleInfoRelationHandler;
+    private RoleInfoDataProviderHandler roleInfoRelationHandler;
 
-    private UserInfoRelationHandler userInfoRelationHandler;
+    private UserInfoDataProviderHandler userInfoRelationHandler;
 
     @BeforeEach
     public void before() {
         injectRelation = new InjectRelation();
-        userInfoRelationHandler = new UserInfoRelationHandler();
-        roleInfoRelationHandler = new RoleInfoRelationHandler();
-        permissionRelationHandler = new PermissionRelationHandler();
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getUserByUsername) == null) {
-            RelationHandlerRepository.registerHandler(userInfoRelationHandler);
+        userInfoRelationHandler = new UserInfoDataProviderHandler();
+        roleInfoRelationHandler = new RoleInfoDataProviderHandler();
+        permissionRelationHandler = new PermissionDataProviderHandler();
+        if (DataProviderRepository.getDataProvider(RelationIdentifiers.getUserByUsername) == null) {
+            DataProviderRepository.registerProvider(userInfoRelationHandler);
         }
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getRoleByUsername) == null) {
-            RelationHandlerRepository.registerHandler(roleInfoRelationHandler);
+        if (DataProviderRepository.getDataProvider(RelationIdentifiers.getRoleByUsername) == null) {
+            DataProviderRepository.registerProvider(roleInfoRelationHandler);
         }
-        if (RelationHandlerRepository.getHandler(RelationIdentifiers.getPermissionsByUsername) == null) {
-            RelationHandlerRepository.registerHandler(permissionRelationHandler);
+        if (DataProviderRepository.getDataProvider(RelationIdentifiers.getPermissionsByUsername) == null) {
+            DataProviderRepository.registerProvider(permissionRelationHandler);
         }
     }
 

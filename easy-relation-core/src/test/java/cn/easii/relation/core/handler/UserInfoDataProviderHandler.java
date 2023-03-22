@@ -1,16 +1,16 @@
 package cn.easii.relation.core.handler;
 
-import cn.easii.relation.annotation.RelationHandler;
+import cn.easii.relation.annotation.DataProvider;
 import cn.easii.relation.core.RelationIdentifiers;
-import cn.easii.relation.core.RelationService;
+import cn.easii.relation.core.DataProviderService;
 import cn.easii.relation.core.model.User;
 import cn.easii.relation.core.model.UserQueryReq;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 
-public class UserInfoRelationHandler implements RelationService {
+public class UserInfoDataProviderHandler implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getUserByUsername)
+    @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
         System.out.println(DateUtil.now() + "req : " + req);
         if (StrUtil.isEmpty(req.getUsername())) {

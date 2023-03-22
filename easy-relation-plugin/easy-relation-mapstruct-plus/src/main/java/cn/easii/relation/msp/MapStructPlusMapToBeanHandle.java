@@ -4,7 +4,9 @@ import cn.easii.relation.AbstractMapToBeanHandle;
 import cn.hutool.core.util.ReflectUtil;
 import io.github.linpeilie.Converter;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MapStructPlusMapToBeanHandle extends AbstractMapToBeanHandle {
 
     private final Converter converter;

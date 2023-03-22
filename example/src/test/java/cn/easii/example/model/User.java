@@ -5,11 +5,12 @@ import cn.easii.example.RelationIdentifiers;
 import cn.easii.relation.annotation.Condition;
 import cn.easii.relation.annotation.ConstantsCondition;
 import cn.easii.relation.annotation.Relation;
+import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
 
 @Data
-public class User {
+public class User implements Serializable {
 
     private String username;
 

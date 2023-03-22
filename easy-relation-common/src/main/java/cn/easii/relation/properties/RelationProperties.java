@@ -1,4 +1,4 @@
-package cn.easii.relation.core.properties;
+package cn.easii.relation.properties;
 
 import cn.easii.relation.annotation.RelationExceptionStrategy;
 import lombok.Data;
@@ -10,5 +10,10 @@ public class RelationProperties {
      * 默认异常处理策略
      */
     private RelationExceptionStrategy defaultExceptionStrategy = RelationExceptionStrategy.THROW;
+
+    /**
+     * 启用 Redis 缓存时的配置
+     */
+    private RelationRedisProperties redis = new RelationRedisProperties();
 
 }

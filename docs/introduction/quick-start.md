@@ -72,15 +72,15 @@ public class Order {
 }
 ```
 
-### 定义用户数据关联处理器
+### 定义用户数据数据提供者
 
-这里需要定义一个类，实现 `RelationService` 接口，在其中定义获取用户信息的接口，并添加 `@RelationHandler` 注解。
+这里需要定义一个类，实现 `DataProviderService` 接口，在其中定义获取用户信息的接口，并添加 `@DataProvider` 注解。
 
 ```java
 @Component
-public class UserInfoRelationHandler implements RelationService {
+public class UserInfoDataProvider implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getUserByUsername)
+    @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
         if ("admin".equals(req.getUsername())) {
             final User user = new User();
@@ -158,9 +158,9 @@ class InjectRelationTest {
 
 同[SpringBoot 环境下配置关联关系](#配置关联关系)
 
-### 定义用户数据关联处理器
+### 定义用户数据数据提供者
 
-同[SpringBoot 环境下定义用户数据关联处理器](#定义用户数据关联处理器)
+同[SpringBoot 环境下定义用户数据数据提供者](#定义用户数据数据提供者)
 
 ### 测试
 
@@ -172,7 +172,7 @@ public class QuickStart {
     @BeforeEach
     public void before() {
         // 注册用户信息获取接口
-        RelationHandlerRepository.registerHandler(new UserInfoRelationHandler());
+        DataProviderRepository.registerHandler(new UserInfoDataProvider());
         injectRelation = new InjectRelation();
     }
 
@@ -200,6 +200,6 @@ public class QuickStart {
 使用 EasyRelation 时，基本分为三步：
 
 1. 在对象中使用 `@Relation` 定义关联关系
-2. 定义关联数据获取接口，在方法上添加 `@RelationHandler`，非 SpringBoot 环境下，还需要手动注入当前接口的实例到 `RelationHandlerRepository`
+2. 定义关联数据获取接口，在方法上添加 `@DataProvider`，非 SpringBoot 环境下，还需要手动注入当前接口的实例到 `DataProviderRepository`
 3. 获取 `InjectRelation` 实例，调用 `injectRelation` 方法，自动实现关联数据注入
 

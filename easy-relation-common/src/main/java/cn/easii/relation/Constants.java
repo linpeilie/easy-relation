@@ -1,4 +1,4 @@
-package cn.easii.relation.core;
+package cn.easii.relation;
 
 public interface Constants {
 

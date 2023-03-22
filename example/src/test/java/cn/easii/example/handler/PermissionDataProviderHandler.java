@@ -4,19 +4,18 @@ import cn.easii.example.Constants;
 import cn.easii.example.RelationIdentifiers;
 import cn.easii.example.model.Permission;
 import cn.easii.example.model.PermissionQueryReq;
-import cn.easii.relation.annotation.RelationHandler;
-import cn.easii.relation.core.RelationService;
+import cn.easii.relation.annotation.DataProvider;
+import cn.easii.relation.core.DataProviderService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PermissionRelationHandler implements RelationService {
+public class PermissionDataProviderHandler implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getPermissionsByUsername)
+    @DataProvider(RelationIdentifiers.getPermissionsByUsername)
     public List<Permission> getPermissionsByUsername(PermissionQueryReq permissionQueryReq) {
-        System.out.println("permissionQueryReq:" + permissionQueryReq);
         if (!Constants.ENABLED.equals(permissionQueryReq.getState())) {
             return Collections.emptyList();
         }

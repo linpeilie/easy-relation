@@ -1,16 +1,16 @@
 package cn.easii.relation.core.handler;
 
-import cn.easii.relation.annotation.RelationHandler;
+import cn.easii.relation.annotation.DataProvider;
 import cn.easii.relation.core.RelationIdentifiers;
-import cn.easii.relation.core.RelationService;
+import cn.easii.relation.core.DataProviderService;
 import cn.easii.relation.core.model.Permission;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PermissionRelationHandler implements RelationService {
+public class PermissionDataProviderHandler implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getPermissionsByUsername)
+    @DataProvider(RelationIdentifiers.getPermissionsByUsername)
     public List<Permission> getPermissionsByUsername(String username) {
         if ("admin".equals(username)) {
             List<Permission> permissions = new ArrayList<>();

@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 关联查询处理器，标记方法为关联查询方法
+ * 标记当前方法为数据提供者方法
  *
  * @author linpl
  * @version 1.0
@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RelationHandler {
+public @interface DataProvider {
 
     /**
      * 关联查询处理器唯一标识，不可重复

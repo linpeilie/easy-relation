@@ -51,13 +51,13 @@ public class Order {
 
 ### 定义数据关联查询处理器
 
-定义一个类，继承 `RelationService`，且实现一个查询用户信息的方法，添加 `@RelationHandler` 注解，并指定其唯一标识，
+定义一个类，继承 `DataProviderService`，且实现一个查询用户信息的方法，添加 `@DataProvider` 注解，并指定其唯一标识，
 
 ```java
 @Component
-public class UserInfoRelationHandler implements RelationService {
+public class UserInfoDataProvider implements DataProviderService {
 
-    @RelationHandler(RelationIdentifiers.getUserByUsername)
+    @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
         // 这里可以从任意来源获取值
         if ("admin".equals(req.getUsername())) {

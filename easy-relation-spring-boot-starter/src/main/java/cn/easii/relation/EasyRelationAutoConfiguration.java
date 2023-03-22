@@ -1,18 +1,19 @@
 package cn.easii.relation;
 
-import cn.easii.relation.core.Constants;
 import cn.easii.relation.core.DefaultRelationCache;
 import cn.easii.relation.core.InjectRelation;
 import cn.easii.relation.core.JsonMapToBeanHandle;
-import cn.easii.relation.core.properties.RelationProperties;
+import cn.easii.relation.properties.RelationProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(EasyRelationHandlerInitializationConfiguration.class)
+@ComponentScan("cn.easii.relation")
+@Import(EasyDataProviderInitializationConfiguration.class)
 public class EasyRelationAutoConfiguration {
 
     @Bean
