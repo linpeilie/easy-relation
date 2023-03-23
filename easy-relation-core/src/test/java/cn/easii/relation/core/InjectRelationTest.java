@@ -1,12 +1,15 @@
 package cn.easii.relation.core;
 
 import cn.easii.relation.core.bean.DataProviderMeta;
-import cn.easii.relation.core.handler.PermissionDataProviderHandler;
-import cn.easii.relation.core.handler.RoleInfoDataProviderHandler;
-import cn.easii.relation.core.handler.UserInfoDataProviderHandler;
+import cn.easii.relation.core.handler.PermissionDataProvideHandler;
+import cn.easii.relation.core.handler.RoleInfoDataProvideHandler;
+import cn.easii.relation.core.handler.UserInfoDataProvideHandler;
 import cn.easii.relation.core.model.User;
 import cn.easii.relation.core.model.UserQueryReq;
 import cn.hutool.core.date.StopWatch;
+import cn.hutool.core.lang.Assert;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,18 +18,18 @@ class InjectRelationTest {
 
     private InjectRelation injectRelation;
 
-    private PermissionDataProviderHandler permissionRelationHandler;
+    private PermissionDataProvideHandler permissionRelationHandler;
 
-    private RoleInfoDataProviderHandler roleInfoRelationHandler;
+    private RoleInfoDataProvideHandler roleInfoRelationHandler;
 
-    private UserInfoDataProviderHandler userInfoRelationHandler;
+    private UserInfoDataProvideHandler userInfoRelationHandler;
 
     @BeforeEach
     public void before() {
         injectRelation = new InjectRelation();
-        userInfoRelationHandler = new UserInfoDataProviderHandler();
-        roleInfoRelationHandler = new RoleInfoDataProviderHandler();
-        permissionRelationHandler = new PermissionDataProviderHandler();
+        userInfoRelationHandler = new UserInfoDataProvideHandler();
+        roleInfoRelationHandler = new RoleInfoDataProvideHandler();
+        permissionRelationHandler = new PermissionDataProvideHandler();
         if (DataProviderRepository.getDataProvider(RelationIdentifiers.getUserByUsername) == null) {
             DataProviderRepository.registerProvider(userInfoRelationHandler);
         }
@@ -94,6 +97,43 @@ class InjectRelationTest {
     private void injectRelationSet() {
         final User user = initUser();
         injectRelation.injectRelation(user);
+    }
+
+    @Test
+    public void injectSingleField() {
+        final User user = initUser();
+        injectRelation.injectRelation(user, "createNickName");
+        System.out.println(user);
+        Assert.isNull(user.getRole());
+        Assert.isNull(user.getPermissions());
+    }
+
+    @Test
+    public void injectList() {
+        List<User> userList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            userList.add(initUser());
+        }
+        injectRelation.injectRelation(userList);
+        for (User user : userList) {
+            Assert.notNull(user.getRole());
+            Assert.notNull(user.getPermissions());
+            Assert.notNull(user.getCreateNickName());
+        }
+    }
+
+    @Test
+    public void injectListSingleField() {
+        List<User> userList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            userList.add(initUser());
+        }
+        injectRelation.injectRelation(userList, "createNickName");
+        for (User user : userList) {
+            Assert.isNull(user.getRole());
+            Assert.isNull(user.getPermissions());
+            Assert.notNull(user.getCreateNickName());
+        }
     }
 
 }

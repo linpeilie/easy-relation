@@ -1,18 +1,18 @@
-package cn.easii.relation.core.handler;
+package cn.easii.example.handler;
 
+import cn.easii.example.RelationIdentifiers;
+import cn.easii.example.model.User;
+import cn.easii.example.model.UserQueryReq;
 import cn.easii.relation.annotation.DataProvider;
-import cn.easii.relation.core.RelationIdentifiers;
-import cn.easii.relation.core.DataProviderService;
-import cn.easii.relation.core.model.User;
-import cn.easii.relation.core.model.UserQueryReq;
-import cn.hutool.core.date.DateUtil;
+import cn.easii.relation.core.DataProvideService;
 import cn.hutool.core.util.StrUtil;
+import org.springframework.stereotype.Component;
 
-public class UserInfoDataProviderHandler implements DataProviderService {
+@Component
+public class UserInfoDataProvideHandler implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
-        System.out.println(DateUtil.now() + "req : " + req);
         if (StrUtil.isEmpty(req.getUsername())) {
             throw new IllegalArgumentException("username is empty");
         }

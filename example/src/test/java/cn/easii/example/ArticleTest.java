@@ -1,6 +1,6 @@
 package cn.easii.example;
 
-import cn.easii.example.handler.UserInfoDataProviderHandler;
+import cn.easii.example.handler.UserInfoDataProvideHandler;
 import cn.easii.example.model.Article;
 import cn.easii.relation.core.DataProviderRepository;
 import cn.easii.relation.core.InjectRelation;
@@ -17,7 +17,7 @@ public class ArticleTest {
     private InjectRelation injectRelation;
 
     @Autowired
-    private UserInfoDataProviderHandler userInfoRelationHandler;
+    private UserInfoDataProvideHandler userInfoRelationHandler;
 
     @BeforeEach
     public void before() {

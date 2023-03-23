@@ -3,11 +3,11 @@ package cn.easii.example.handler;
 import cn.easii.example.RelationIdentifiers;
 import cn.easii.example.model.Role;
 import cn.easii.relation.annotation.DataProvider;
-import cn.easii.relation.core.DataProviderService;
+import cn.easii.relation.core.DataProvideService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleInfoDataProviderHandler implements DataProviderService {
+public class RoleInfoDataProvideHandler implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getRoleByUsername)
     public Role getRoleByUsername(String username) {

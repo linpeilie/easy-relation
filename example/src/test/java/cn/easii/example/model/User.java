@@ -18,16 +18,16 @@ public class User implements Serializable {
 
     private String icon;
 
-    @Relation(handler = "getRoleByUsername", condition = {@Condition(field = "username")})
+    @Relation(provider = "getRoleByUsername", condition = {@Condition(field = "username")})
     private Role role;
 
-    @Relation(handler = RelationIdentifiers.getPermissionsByUsername, condition = {
+    @Relation(provider = RelationIdentifiers.getPermissionsByUsername, condition = {
         @Condition(field = "username")}, constantsCondition = {@ConstantsCondition(field = "state", value = "1")})
     private List<Permission> permissions;
 
     private String createUsername;
 
-    @Relation(handler = RelationIdentifiers.getUserByUsername, targetField = "nickName", condition = {
+    @Relation(provider = RelationIdentifiers.getUserByUsername, targetField = "nickName", condition = {
         @Condition(field = "createUsername", paramField = "username")}, useCache = true, cacheTimeout = 60)
     private String createNickName;
 

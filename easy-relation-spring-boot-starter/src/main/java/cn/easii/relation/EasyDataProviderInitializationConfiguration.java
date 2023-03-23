@@ -1,7 +1,7 @@
 package cn.easii.relation;
 
 import cn.easii.relation.core.DataProviderRepository;
-import cn.easii.relation.core.DataProviderService;
+import cn.easii.relation.core.DataProvideService;
 import java.util.Map;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -17,8 +17,8 @@ public class EasyDataProviderInitializationConfiguration {
         @Override
         public void postProcessBeanFactory(final ConfigurableListableBeanFactory configurableListableBeanFactory)
             throws BeansException {
-            final Map<String, DataProviderService> relationService =
-                configurableListableBeanFactory.getBeansOfType(DataProviderService.class);
+            final Map<String, DataProvideService> relationService =
+                configurableListableBeanFactory.getBeansOfType(DataProvideService.class);
             relationService.values().forEach(DataProviderRepository::registerProvider);
         }
     }

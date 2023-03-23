@@ -1,5 +1,6 @@
 package cn.easii.relation.core;
 
+import cn.easii.relation.core.bean.RelationItemMeta;
 import cn.easii.relation.core.bean.RelationMeta;
 import cn.easii.relation.core.model.Role;
 import cn.easii.relation.core.model.User;
@@ -19,26 +20,29 @@ class RelationMetaStoreTest {
         System.out.println(relationMetaList);
         Assert.isTrue(relationMetaList.size() == 3);
         for (RelationMeta relationMeta : relationMetaList) {
-            Assert.notNull(relationMeta.getFieldSetter());
-            Assert.notBlank(relationMeta.getHandlerIdentifier());
-            Assert.notEmpty(relationMeta.getConditions());
-            if ("role".equals(relationMeta.getField())) {
-                final User user = new User();
-                final Role role = new Role();
-                role.setRoleName("Admin");
-                final Method fieldSetter = relationMeta.getFieldSetter();
-                fieldSetter.invoke(user, role);
-                Assert.notNull(user.getRole());
-                Assert.equals("Admin", user.getRole().getRoleName());
-                final Method fieldGetter = relationMeta.getFieldGetter();
-                final Role userRole = (Role) fieldGetter.invoke(user);
-                Assert.equals(userRole.getRoleName(), "Admin");
-            } else if ("permissions".equals(relationMeta.getField())) {
+            Assert.notBlank(relationMeta.getDataProvider());
+            Assert.notEmpty(relationMeta.getItems());
+            for (RelationItemMeta item : relationMeta.getItems()) {
+                Assert.notNull(item.getFieldSetter());
+                Assert.notEmpty(item.getConditions());
+                if ("role" .equals(item.getField())) {
+                    final User user = new User();
+                    final Role role = new Role();
+                    role.setRoleName("Admin");
+                    final Method fieldSetter = item.getFieldSetter();
+                    fieldSetter.invoke(user, role);
+                    Assert.notNull(user.getRole());
+                    Assert.equals("Admin", user.getRole().getRoleName());
+                    final Method fieldGetter = item.getFieldGetter();
+                    final Role userRole = (Role) fieldGetter.invoke(user);
+                    Assert.equals(userRole.getRoleName(), "Admin");
+                } else if ("permissions" .equals(item.getField())) {
 
-            } else if ("createUserName".equals(relationMeta.getField())) {
+                } else if ("createUserName" .equals(item.getField())) {
 
-            } else {
-                Assert.isTrue(true);
+                } else {
+                    Assert.isTrue(true);
+                }
             }
         }
     }

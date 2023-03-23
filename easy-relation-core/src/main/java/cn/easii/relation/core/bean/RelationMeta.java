@@ -1,41 +1,36 @@
 package cn.easii.relation.core.bean;
 
-import cn.easii.relation.annotation.RelationExceptionStrategy;
 import java.io.Serializable;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 针对单个关联项的描述类
  */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@ToString
 public class RelationMeta implements Serializable {
 
-    private String field;
+    public RelationMeta(String dataProvider) {
+        this.dataProvider = dataProvider;
+        this.items = new ArrayList<>();
+    }
 
-    private Method fieldGetter;
+    private String dataProvider;
 
-    private Method fieldSetter;
-
-    private String handlerIdentifier;
-
-    private String targetField;
-
-    private List<DynamicConditionMeta> conditions;
-
-    private List<ConstantsConditionMeta> constantsConditions;
-
+    @Setter
     private boolean useCache;
 
+    @Setter
     private int cacheTimeout;
 
-    private RelationExceptionStrategy exceptionStrategy;
+    private List<RelationItemMeta> items;
+
+    public boolean addItem(RelationItemMeta item) {
+        return items.add(item);
+    }
 
 }

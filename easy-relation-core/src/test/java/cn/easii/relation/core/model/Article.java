@@ -12,7 +12,7 @@ public class Article {
 
     private String authorUsername;
 
-    @Relation(handler = RelationIdentifiers.getUserByUsername, condition = {
+    @Relation(provider = RelationIdentifiers.getUserByUsername, condition = {
         @Condition(field = "authorUsername", paramField = "username")}, targetField = "nickName",
         useCache = true, cacheTimeout = 5)
     private String nickName;

@@ -5,12 +5,14 @@ import cn.easii.relation.annotation.ConstantsCondition;
 import cn.easii.relation.annotation.Relation;
 import cn.easii.relation.core.bean.ConstantsConditionMeta;
 import cn.easii.relation.core.bean.DynamicConditionMeta;
+import cn.easii.relation.core.bean.RelationItemMeta;
 import cn.easii.relation.core.bean.RelationMeta;
 import cn.easii.relation.core.utils.ReflectUtils;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,31 +26,34 @@ public class RelationMetaStore {
             return relationMetaMap.get(clazz);
         }
         final Field[] fields = ReflectUtil.getFields(clazz);
-        List<RelationMeta> relationMetas = new ArrayList<>();
+        Map<String, RelationMeta> metaMap = new HashMap<>();
         for (Field field : fields) {
             final Relation relation = field.getAnnotation(Relation.class);
             if (relation == null) {
                 continue;
             }
-            relationMetas.add(toMeta(clazz, field, relation));
+            final String provider = relation.provider();
+            RelationMeta relationMeta = metaMap.putIfAbsent(provider, new RelationMeta(provider));
+            relationMeta = relationMeta == null ? metaMap.get(provider) : relationMeta;
+            relationMeta.setUseCache(relationMeta.isUseCache() || relation.useCache());
+            relationMeta.setCacheTimeout(Math.max(relationMeta.getCacheTimeout(), relation.cacheTimeout()));
+            relationMeta.addItem(toItemMeta(clazz, field, relation));
         }
+        List<RelationMeta> relationMetas = new ArrayList<>(metaMap.values());
         relationMetaMap.put(clazz, relationMetas);
         return relationMetas;
     }
 
-    private static RelationMeta toMeta(Class<?> clazz, Field field, Relation relation) {
-        RelationMeta relationMeta = new RelationMeta();
-        relationMeta.setField(field.getName());
-        relationMeta.setFieldGetter(ReflectUtils.getGetter(clazz, field.getName()));
-        relationMeta.setFieldSetter(ReflectUtils.getSetter(clazz, field.getName()));
-        relationMeta.setHandlerIdentifier(relation.handler());
-        relationMeta.setTargetField(relation.targetField());
-        relationMeta.setConditions(buildConditions(clazz, relation.condition()));
-        relationMeta.setConstantsConditions(buildConditions(relation.constantsCondition()));
-        relationMeta.setUseCache(relation.useCache());
-        relationMeta.setCacheTimeout(relation.cacheTimeout());
-        relationMeta.setExceptionStrategy(relation.exceptionStrategy());
-        return relationMeta;
+    private static RelationItemMeta toItemMeta(Class<?> clazz, Field field, Relation relation) {
+        return RelationItemMeta.builder()
+            .field(field.getName())
+            .fieldGetter(ReflectUtils.getGetter(clazz, field.getName()))
+            .fieldSetter(ReflectUtils.getSetter(clazz, field.getName()))
+            .targetField(relation.targetField())
+            .conditions(buildConditions(clazz, relation.condition()))
+            .constantsConditions(buildConditions(relation.constantsCondition()))
+            .exceptionStrategy(relation.exceptionStrategy())
+            .build();
     }
 
     private static List<DynamicConditionMeta> buildConditions(Class<?> clazz, Condition[] conditions) {

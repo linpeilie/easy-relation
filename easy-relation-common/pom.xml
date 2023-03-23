@@ -12,11 +12,4 @@
 
     <artifactId>easy-relation-common</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>cn.easii</groupId>
-            <artifactId>easy-relation-annotation</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

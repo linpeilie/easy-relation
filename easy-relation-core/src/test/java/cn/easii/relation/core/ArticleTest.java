@@ -1,8 +1,8 @@
 package cn.easii.relation.core;
 
-import cn.easii.relation.core.handler.PermissionDataProviderHandler;
-import cn.easii.relation.core.handler.RoleInfoDataProviderHandler;
-import cn.easii.relation.core.handler.UserInfoDataProviderHandler;
+import cn.easii.relation.core.handler.PermissionDataProvideHandler;
+import cn.easii.relation.core.handler.RoleInfoDataProvideHandler;
+import cn.easii.relation.core.handler.UserInfoDataProvideHandler;
 import cn.easii.relation.core.model.Article;
 import cn.hutool.core.lang.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,18 +12,18 @@ public class ArticleTest {
 
     private InjectRelation injectRelation;
 
-    private PermissionDataProviderHandler permissionRelationHandler;
+    private PermissionDataProvideHandler permissionRelationHandler;
 
-    private RoleInfoDataProviderHandler roleInfoRelationHandler;
+    private RoleInfoDataProvideHandler roleInfoRelationHandler;
 
-    private UserInfoDataProviderHandler userInfoRelationHandler;
+    private UserInfoDataProvideHandler userInfoRelationHandler;
 
     @BeforeEach
     public void before() {
         injectRelation = new InjectRelation();
-        userInfoRelationHandler = new UserInfoDataProviderHandler();
-        roleInfoRelationHandler = new RoleInfoDataProviderHandler();
-        permissionRelationHandler = new PermissionDataProviderHandler();
+        userInfoRelationHandler = new UserInfoDataProvideHandler();
+        roleInfoRelationHandler = new RoleInfoDataProvideHandler();
+        permissionRelationHandler = new PermissionDataProvideHandler();
         if (DataProviderRepository.getDataProvider(RelationIdentifiers.getUserByUsername) == null) {
             DataProviderRepository.registerProvider(userInfoRelationHandler);
         }

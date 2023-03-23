@@ -2,10 +2,10 @@ package cn.easii.relation.core.handler;
 
 import cn.easii.relation.annotation.DataProvider;
 import cn.easii.relation.core.RelationIdentifiers;
-import cn.easii.relation.core.DataProviderService;
+import cn.easii.relation.core.DataProvideService;
 import cn.easii.relation.core.model.Role;
 
-public class RoleInfoDataProviderHandler implements DataProviderService {
+public class RoleInfoDataProvideHandler implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getRoleByUsername)
     public Role getRoleByUsername(String username) {

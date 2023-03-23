@@ -15,10 +15,6 @@
     <dependencies>
         <dependency>
             <groupId>cn.easii</groupId>
-            <artifactId>easy-relation-annotation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.easii</groupId>
             <artifactId>easy-relation-common</artifactId>
         </dependency>
         <dependency>

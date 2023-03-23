@@ -1,5 +1,6 @@
 package cn.easii.relation.annotation;
 
+import cn.easii.relation.RelationExceptionStrategy;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,11 +19,11 @@ import java.lang.annotation.Target;
 public @interface Relation {
 
     /**
-     * 将处理程序
+     * 数据提供者
      *
      * @return {@link String}
      */
-    String handler();
+    String provider();
 
     /**
      * 关联对象的具体属性，但需要关联对象中的某个字段时，必须要指定该属性，否则，将认为直接把关联查询结果，赋值给该属性

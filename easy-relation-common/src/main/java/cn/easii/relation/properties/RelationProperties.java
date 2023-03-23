@@ -1,6 +1,6 @@
 package cn.easii.relation.properties;
 
-import cn.easii.relation.annotation.RelationExceptionStrategy;
+import cn.easii.relation.RelationExceptionStrategy;
 import lombok.Data;
 
 @Data

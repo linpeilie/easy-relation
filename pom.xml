@@ -12,7 +12,6 @@
     <description>简单的对象关联</description>
     <modules>
         <module>easy-relation-core</module>
-        <module>easy-relation-annotation</module>
         <module>easy-relation-common</module>
         <module>easy-relation-plugin</module>
         <module>easy-relation-spring-boot-starter</module>
@@ -28,7 +27,7 @@
         <lombok.version>1.18.26</lombok.version>
         <hutool.version>5.8.15</hutool.version>
         <slf4j.version>2.0.7</slf4j.version>
-        <mapstruct-plus.version>1.1.7</mapstruct-plus.version>
+        <mapstruct-plus.version>1.1.9</mapstruct-plus.version>
         <spring-boot.version>2.7.9</spring-boot.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
     </properties>
@@ -55,11 +54,6 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>cn.easii</groupId>
-                <artifactId>easy-relation-annotation</artifactId>
-                <version>${easy-relation.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.easii</groupId>

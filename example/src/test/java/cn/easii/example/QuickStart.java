@@ -1,6 +1,6 @@
 package cn.easii.example;
 
-import cn.easii.example.handler.UserInfoDataProviderHandler;
+import cn.easii.example.handler.UserInfoDataProvideHandler;
 import cn.easii.example.model.Order;
 import cn.easii.relation.core.DataProviderRepository;
 import cn.easii.relation.core.InjectRelation;
@@ -15,7 +15,7 @@ public class QuickStart {
     @BeforeEach
     public void before() {
         // 注册用户信息获取接口
-        DataProviderRepository.registerProvider(new UserInfoDataProviderHandler());
+        DataProviderRepository.registerProvider(new UserInfoDataProvideHandler());
         injectRelation = new InjectRelation();
     }
 

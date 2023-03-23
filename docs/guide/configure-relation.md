@@ -90,7 +90,7 @@ public class UserQueryReq {
 @tab UserInfoDataProvider
 ```java
 @Component
-public class UserInfoDataProvider implements DataProviderService {
+public class UserInfoDataProvider implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
@@ -185,7 +185,7 @@ public class PermissionQueryReq {
 @tab PermissionDataProvider
 ```java
 @Component
-public class PermissionDataProvider implements DataProviderService {
+public class PermissionDataProvider implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getPermissionsByUsername)
     public List<Permission> getPermissionsByUsername(PermissionQueryReq permissionQueryReq) {
@@ -273,7 +273,7 @@ public class User {
 @tab RoleInfoDataProvider
 ```java
 @Component
-public class RoleInfoDataProvider implements DataProviderService {
+public class RoleInfoDataProvider implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getRoleByUsername)
     public Role getRoleByUsername(String username) {
@@ -334,7 +334,9 @@ class InjectRelationTest {
 `@Relation` 注解中提供了两个属性：`useCache`、`cacheTimeout`。
 分别用来配置是否启用缓存，和缓存的失效时间「单位：s」。
 
-> 这里需要注意：注解中配置的缓存是指 EasyRelation 中的定义的二级缓存
+> 这里需要注意两点：
+> 1. 注解中配置的缓存是指 EasyRelation 中的定义的二级缓存
+> 2. 当一个类中有[平铺关联](#关联目标类型属性平铺关联)的场景时，针对于同一个数据提供者，只要有一个属性配置了启用缓存，则当前类型自动关联时，其他的属性也会经过缓存。具体可以参考[缓存](/guide/cache.html)
 
 具体可参考[缓存](/guide/cache.html)
 
@@ -362,7 +364,7 @@ public class Article {
 
 @tab UserInfoDataProvider
 ```java
-public class UserInfoDataProvider implements DataProviderService {
+public class UserInfoDataProvider implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {

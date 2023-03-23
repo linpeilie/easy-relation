@@ -12,8 +12,8 @@ public class DataProviderRepository {
 
     private static final Map<String, DataProviderMeta> relationHandlerMap = new ConcurrentHashMap<>();
 
-    public static void registerProvider(DataProviderService dataProviderService) {
-        final Method[] methods = dataProviderService.getClass().getMethods();
+    public static void registerProvider(DataProvideService dataProvideService) {
+        final Method[] methods = dataProvideService.getClass().getMethods();
         for (Method method : methods) {
             final DataProvider dataProvider = method.getAnnotation(DataProvider.class);
             if (dataProvider == null) {
@@ -25,7 +25,7 @@ public class DataProviderRepository {
                 continue;
             }
             // method invoke
-            ExceptionFunction<Object, Object> methodInvoker = o -> method.invoke(dataProviderService, o);
+            ExceptionFunction<Object, Object> methodInvoker = o -> method.invoke(dataProvideService, o);
             final DataProviderMeta dataProviderMeta =
                 new DataProviderMeta(methodInvoker, parameterTypes[0]);
             final DataProviderMeta oldRelationHandler =

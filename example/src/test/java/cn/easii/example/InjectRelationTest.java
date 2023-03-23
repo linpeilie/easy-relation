@@ -1,8 +1,8 @@
 package cn.easii.example;
 
-import cn.easii.example.handler.PermissionDataProviderHandler;
-import cn.easii.example.handler.RoleInfoDataProviderHandler;
-import cn.easii.example.handler.UserInfoDataProviderHandler;
+import cn.easii.example.handler.PermissionDataProvideHandler;
+import cn.easii.example.handler.RoleInfoDataProvideHandler;
+import cn.easii.example.handler.UserInfoDataProvideHandler;
 import cn.easii.example.model.Order;
 import cn.easii.example.model.PermissionQueryReq;
 import cn.easii.example.model.User;
@@ -24,13 +24,13 @@ class InjectRelationTest {
     private InjectRelation injectRelation;
 
     @Autowired
-    private PermissionDataProviderHandler permissionRelationHandler;
+    private PermissionDataProvideHandler permissionRelationHandler;
 
     @Autowired
-    private RoleInfoDataProviderHandler roleInfoRelationHandler;
+    private RoleInfoDataProvideHandler roleInfoRelationHandler;
 
     @Autowired
-    private UserInfoDataProviderHandler userInfoRelationHandler;
+    private UserInfoDataProvideHandler userInfoRelationHandler;
 
     private User initUser() {
         User user = new User();
@@ -59,10 +59,10 @@ class InjectRelationTest {
 
     @Test
     void testInjectRelation() throws Exception {
-        for (int i = 0; i < 1000; i++) {
-            directSet();
-            injectRelationSet();
-        }
+//        for (int i = 0; i < 1000; i++) {
+//            directSet();
+//            injectRelationSet();
+//        }
         StopWatch stopWatch = new StopWatch("性能比较");
         stopWatch.start("直接调用方法取值set");
         for (int i = 0; i < 1000000; i++) {

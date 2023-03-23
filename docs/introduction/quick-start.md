@@ -74,11 +74,11 @@ public class Order {
 
 ### 定义用户数据数据提供者
 
-这里需要定义一个类，实现 `DataProviderService` 接口，在其中定义获取用户信息的接口，并添加 `@DataProvider` 注解。
+这里需要定义一个类，实现 `DataProvideService` 接口，在其中定义获取用户信息的接口，并添加 `@DataProvider` 注解。
 
 ```java
 @Component
-public class UserInfoDataProvider implements DataProviderService {
+public class UserInfoDataProvider implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {

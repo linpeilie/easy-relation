@@ -49,13 +49,13 @@ public class Order {
 
 如上定义中，在需要关联查询的字段，添加`@Relation`注解，指定关联关系，这里的 `targetField` 表示当前字段需要查询结果中的指定 `nickName` 属性。
 
-### 定义数据关联查询处理器
+### 定义数据提供者
 
-定义一个类，继承 `DataProviderService`，且实现一个查询用户信息的方法，添加 `@DataProvider` 注解，并指定其唯一标识，
+定义一个类，继承 `DataProvideService`，且实现一个查询用户信息的方法，添加 `@DataProvider` 注解，并指定其唯一标识，
 
 ```java
 @Component
-public class UserInfoDataProvider implements DataProviderService {
+public class UserInfoDataProvider implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
