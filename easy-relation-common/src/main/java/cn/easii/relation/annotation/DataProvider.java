@@ -1,5 +1,6 @@
 package cn.easii.relation.annotation;
 
+import cn.easii.relation.Constants;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -25,5 +26,17 @@ public @interface DataProvider {
      * @return {@link String}
      */
     String value();
+
+    /**
+     * 是否启用缓存
+     * @return  是否启用缓存
+     */
+    boolean useCache() default Constants.DefaultUseCache;
+
+    /**
+     * 默认缓存失效时间，单位：s
+     * @return  缓存时间时间
+     */
+    int cacheTimeout() default Constants.DefaultCacheTime;
 
 }

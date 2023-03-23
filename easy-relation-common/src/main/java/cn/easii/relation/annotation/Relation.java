@@ -1,5 +1,6 @@
 package cn.easii.relation.annotation;
 
+import cn.easii.relation.Constants;
 import cn.easii.relation.RelationExceptionStrategy;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -51,14 +52,14 @@ public @interface Relation {
      *
      * @return boolean
      */
-    boolean useCache() default false;
+    boolean useCache() default Constants.DefaultUseCache;
 
     /**
      * 缓存超时时间，单位：s
      *
      * @return int
      */
-    int cacheTimeout() default 300;
+    int cacheTimeout() default Constants.DefaultCacheTime;
 
     /**
      * 当数据关联出现异常时的处理策略，默认在 RelationProperties 配置

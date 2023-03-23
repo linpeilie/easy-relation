@@ -8,6 +8,11 @@ EasyRelation 是一个简单、高效的自动关联数据框架，可以通过�
 
 **如果该项目帮助了您，希望能点个 Star 鼓励一下！**
 
+## 链接地址
+
+- [Gitee](https://gitee.com/easii/easy-relation)
+- [Document](https://easy-relation.easii.cn)
+
 ## 特点
 
 - 不限制关联查询方式，需要关联的数据可以是任意来源
