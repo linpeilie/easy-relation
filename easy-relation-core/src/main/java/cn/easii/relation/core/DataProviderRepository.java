@@ -27,7 +27,8 @@ public class DataProviderRepository {
             // method invoke
             ExceptionFunction<Object, Object> methodInvoker = o -> method.invoke(dataProvideService, o);
             final DataProviderMeta dataProviderMeta =
-                new DataProviderMeta(methodInvoker, parameterTypes[0]);
+                new DataProviderMeta(methodInvoker, parameterTypes[0], dataProvider.useCache(),
+                    dataProvider.cacheTimeout());
             final DataProviderMeta oldRelationHandler =
                 relationHandlerMap.putIfAbsent(dataProvider.value(), dataProviderMeta);
             if (oldRelationHandler != null) {

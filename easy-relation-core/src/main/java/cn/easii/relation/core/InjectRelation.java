@@ -1,5 +1,6 @@
 package cn.easii.relation.core;
 
+import cn.easii.relation.CacheStrategy;
 import cn.easii.relation.MapToBeanHandle;
 import cn.easii.relation.RelationCache;
 import cn.easii.relation.RelationExceptionStrategy;
@@ -25,8 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class InjectRelation {
-
-    private static final ThreadLocal<Map<String, Object>> resultTempMap = new ThreadLocal<>();
 
     private final RelationCache relationCache;
 
@@ -69,10 +68,7 @@ public class InjectRelation {
         try {
             innerFunction.invoke();
         } finally {
-            if (resultTempMap.get() != null) {
-                resultTempMap.get().clear();
-                resultTempMap.remove();
-            }
+            SessionCache.closeCacheIfNecessary();
         }
     }
 
@@ -80,9 +76,7 @@ public class InjectRelation {
      * 开启一级缓存
      */
     private void openSessionCache() {
-        if (resultTempMap.get() == null) {
-            resultTempMap.set(new HashMap<>());
-        }
+        SessionCache.openCacheIfNecessary();
     }
 
     private <T> void injectOn(T t, String... relationFields) {
@@ -135,6 +129,18 @@ public class InjectRelation {
         }
     }
 
+    private boolean secondLevelCacheEnabled(RelationMeta relationMeta, DataProviderMeta dataProviderMeta) {
+        switch (relationMeta.getCacheStrategy()) {
+            case ENABLE:
+                return true;
+            case DISABLE:
+                return false;
+            case DEFAULT:
+            default:
+                return dataProviderMeta.isUseCache();
+        }
+    }
+
     private <T> void inject(T t, RelationMeta relationMeta, RelationItemMeta relationItemMeta)
         throws Exception {
         // 如果已经有值，则不再关联查询
@@ -152,39 +158,38 @@ public class InjectRelation {
         // 缓存 key
         String cacheKey = null;
         // 获取一级缓存
-        final Map<String, Object> sessionCacheMap = resultTempMap.get();
-        if (sessionCacheMap != null) {
+        if (SessionCache.isOpen()) {
             cacheKey = getCacheKey(relationMeta.getDataProvider(), paramMap);
-            if (sessionCacheMap.containsKey(cacheKey)) {
-                final Object result = sessionCacheMap.get(cacheKey);
-                handleResult(t, result, relationItemMeta);
-                return;
-            }
-        }
-        // 二级缓存
-        if (relationMeta.isUseCache()) {
-            cacheKey = cacheKey == null ? getCacheKey(relationMeta.getDataProvider(), paramMap) : cacheKey;
-            final Object result = relationCache.get(cacheKey);
-            if (result != null) {
+            if (SessionCache.exists(cacheKey)) {
+                final Object result = SessionCache.get(cacheKey);
                 handleResult(t, result, relationItemMeta);
                 return;
             }
         }
         // 查询
-        final DataProviderMeta relationHandler =
+        final DataProviderMeta dataProvider =
             DataProviderRepository.getDataProvider(relationMeta.getDataProvider());
-        if (relationHandler == null) {
-            throw new RelationException("cannot find relation handler by " + relationMeta.getDataProvider());
+        // 二级缓存，如果强制开启缓存则先判断缓存数据
+        if (secondLevelCacheEnabled(relationMeta, dataProvider)) {
+            cacheKey = cacheKey == null ? getCacheKey(relationMeta.getDataProvider(), paramMap) : cacheKey;
+            if (relationCache.hasKey(cacheKey)) {
+                final Object result = relationCache.get(cacheKey);
+                handleResult(t, result, relationItemMeta);
+                return;
+            }
+        }
+
+        if (dataProvider == null) {
+            throw new RelationException("cannot find data provider by " + relationMeta.getDataProvider());
         }
         // 映射参数
-        final Object param = mapToBeanHandle.mapToBean(paramMap, relationHandler.getParameterClass());
-        final Object result = relationHandler.getFunction().apply(param);
+        final Object param = mapToBeanHandle.mapToBean(paramMap, dataProvider.getParameterClass());
+        final Object result = dataProvider.getFunction().apply(param);
         // 保存一级缓存
-        if (sessionCacheMap != null) {
-            sessionCacheMap.put(cacheKey, result);
-        }
-        if (relationMeta.isUseCache()) {
-            relationCache.set(cacheKey, result, relationMeta.getCacheTimeout() * 1000L);
+        SessionCache.putIfAbsent(cacheKey, result);
+        // 二级缓存
+        if (secondLevelCacheEnabled(relationMeta, dataProvider)) {
+            relationCache.set(cacheKey, result, dataProvider.getCacheTimeout() * 1000L);
         }
         // 解析结果
         if (result == null) {
@@ -195,6 +200,9 @@ public class InjectRelation {
 
     private <T> void handleResult(T t, Object result, RelationItemMeta relationItemMeta)
         throws InvocationTargetException, IllegalAccessException {
+        if (result == null) {
+            return;
+        }
         Object r = result;
         if (relationItemMeta.getTargetField() != null && !relationItemMeta.getTargetField().isEmpty()) {
             final Method getter = ReflectUtils.getGetter(result.getClass(), relationItemMeta.getTargetField());
@@ -209,6 +217,7 @@ public class InjectRelation {
         for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
             cacheKey.append(StrUtil.DASHED)
                 .append(entry.getKey())
+                .append(StrUtil.DASHED)
                 .append(ObjectUtils.toString(entry.getValue()));
         }
         return cacheKey.toString();

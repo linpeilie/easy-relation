@@ -2,6 +2,7 @@ package cn.easii.example.model;
 
 import cn.easii.example.Constants;
 import cn.easii.example.RelationIdentifiers;
+import cn.easii.relation.CacheStrategy;
 import cn.easii.relation.annotation.Condition;
 import cn.easii.relation.annotation.ConstantsCondition;
 import cn.easii.relation.annotation.Relation;
@@ -28,7 +29,7 @@ public class User implements Serializable {
     private String createUsername;
 
     @Relation(provider = RelationIdentifiers.getUserByUsername, targetField = "nickName", condition = {
-        @Condition(field = "createUsername", paramField = "username")}, useCache = true, cacheTimeout = 60)
+        @Condition(field = "createUsername", paramField = "username")}, cacheStrategy = CacheStrategy.ENABLE)
     private String createNickName;
 
 }

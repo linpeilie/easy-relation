@@ -41,6 +41,11 @@ public abstract class AbstractRedisRelationCache implements RelationCache {
     }
 
     @Override
+    public boolean hasKey(final String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+    }
+
+    @Override
     public void set(final String key, final Object value, final long time) {
         redisTemplate.opsForValue().set(getKey(key), value, time, TimeUnit.MILLISECONDS);
     }

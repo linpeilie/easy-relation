@@ -35,8 +35,7 @@ public class RelationMetaStore {
             final String provider = relation.provider();
             RelationMeta relationMeta = metaMap.putIfAbsent(provider, new RelationMeta(provider));
             relationMeta = relationMeta == null ? metaMap.get(provider) : relationMeta;
-            relationMeta.setUseCache(relationMeta.isUseCache() || relation.useCache());
-            relationMeta.setCacheTimeout(Math.max(relationMeta.getCacheTimeout(), relation.cacheTimeout()));
+            relationMeta.setCacheStrategy(relationMeta.getCacheStrategy());
             relationMeta.addItem(toItemMeta(clazz, field, relation));
         }
         List<RelationMeta> relationMetas = new ArrayList<>(metaMap.values());

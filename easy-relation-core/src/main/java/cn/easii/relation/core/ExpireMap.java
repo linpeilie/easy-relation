@@ -17,7 +17,11 @@ public class ExpireMap<K, V> {
         map = new ConcurrentHashMap<>();
         EXPIRE_TIME_MAP = new ConcurrentHashMap<>();
         timer = new Timer();
-        timer.schedule(new CheckKeyExpireTask(), 0, 100);
+        timer.schedule(new CheckKeyExpireTask(), 0, 1000);
+    }
+
+    public boolean containsKey(K key) {
+        return map.containsKey(key);
     }
 
     public V get(K key) {
@@ -38,8 +42,10 @@ public class ExpireMap<K, V> {
         public void run() {
             for (Map.Entry<K, Long> entry : EXPIRE_TIME_MAP.entrySet()) {
                 if (System.currentTimeMillis() > entry.getValue()) {
-                    map.remove(entry.getKey());
-                    EXPIRE_TIME_MAP.remove(entry.getKey());
+                    // 如果值发生了变化，则不删除当前key
+                    if (EXPIRE_TIME_MAP.remove(entry.getKey(), entry.getValue())) {
+                        map.remove(entry.getKey());
+                    }
                 }
             }
         }

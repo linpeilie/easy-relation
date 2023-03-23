@@ -1,5 +1,6 @@
 package cn.easii.relation.core.bean;
 
+import cn.easii.relation.CacheStrategy;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +23,7 @@ public class RelationMeta implements Serializable {
     private String dataProvider;
 
     @Setter
-    private boolean useCache;
-
-    @Setter
-    private int cacheTimeout;
+    private CacheStrategy cacheStrategy;
 
     private List<RelationItemMeta> items;
 

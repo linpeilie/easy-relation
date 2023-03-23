@@ -13,4 +13,8 @@ public class DataProviderMeta implements Serializable {
 
     private Class<?> parameterClass;
 
+    private boolean useCache;
+
+    private int cacheTimeout;
+
 }

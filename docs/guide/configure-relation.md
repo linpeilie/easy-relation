@@ -331,12 +331,18 @@ class InjectRelationTest {
 
 针对于每一个类型中的每个关联属性，都可以单独配置是否启用缓存。
 
-`@Relation` 注解中提供了两个属性：`useCache`、`cacheTimeout`。
-分别用来配置是否启用缓存，和缓存的失效时间「单位：s」。
+`@Relation` 注解中提供了属性：`cacheStrategy` 来自定义当前类关联该属性时的缓存策略。
 
-> 这里需要注意两点：
+其中提供了三个可选项：
+
+- `ENABLE`：开启缓存；
+- `DEFAULT`：默认配置，默认情况下，不自定义缓存策略，而是使用缓存提供者的缓存配置；
+- `DISABLE`：禁用缓存
+
+> 这里需要注意三点：
 > 1. 注解中配置的缓存是指 EasyRelation 中的定义的二级缓存
-> 2. 当一个类中有[平铺关联](#关联目标类型属性平铺关联)的场景时，针对于同一个数据提供者，只要有一个属性配置了启用缓存，则当前类型自动关联时，其他的属性也会经过缓存。具体可以参考[缓存](/guide/cache.html)
+> 2. 当一个类中有[平铺关联](#关联目标类型属性平铺关联)的场景时，针对于同一个数据提供者，缓存配置要相同！！！如果不同的话，不能够保证最终的缓存策略。
+> 3. 当缓存策略为非 `DEFAULT` 时，以当前属性上面配置的为准，与数据提供者配置的是否启用缓存无关。
 
 具体可参考[缓存](/guide/cache.html)
 
@@ -356,7 +362,7 @@ public class Article {
 
     @Relation(handler = RelationIdentifiers.getUserByUsername, condition = {
         @Condition(field = "authorUsername", paramField = "username")}, targetField = "nickName",
-        useCache = true, cacheTimeout = 5)
+        cacheStrategy = CacheStrategy.ENABLE)
     private String nickName;
 
 }

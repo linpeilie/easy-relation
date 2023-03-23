@@ -2,12 +2,17 @@ package cn.easii.relation.core;
 
 import cn.easii.relation.RelationCache;
 
-public class DefaultRelationCache implements RelationCache {
+class DefaultRelationCache implements RelationCache {
 
     private final ExpireMap<String, Object> expireMap;
 
     public DefaultRelationCache() {
         expireMap = new ExpireMap<>();
+    }
+
+    @Override
+    public boolean hasKey(final String key) {
+        return expireMap.containsKey(key);
     }
 
     @Override

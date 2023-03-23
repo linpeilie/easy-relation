@@ -79,6 +79,13 @@ public class UserInfoDataProviderHandler implements DataProvideService {
 }
 ```
 
+### 缓存配置
+
+`@DataProvider#useCache` 提供了在数据提供者侧配置默认缓存开关的功能。在该处配置的是针对当前数据提供者的默认缓存策略，
+只有当配置关联关系时，`@Relation#cacheStrategy` 为 `CacheStrategy.DEFAULT` 时才会生效。详情可以参考[配置关联关系#启用缓存](/guide/configure-relation.html#启用缓存)
+
+同时，还提供了缓存的失效时间配置，通过 `@DataProvider#cacheTimeout` 来指定，单位为秒(s) 。
+
 ### 注册到 DataProviderRepository
 
 当想要在框架中使用定义的数据提供者时，需要提前在 `DataProviderRepository` 中调用 `registerProvider` 方法注册该对象。

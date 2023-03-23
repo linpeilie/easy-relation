@@ -22,7 +22,7 @@ public class User {
     private String createUsername;
 
     @Relation(provider = RelationIdentifiers.getUserByUsername, targetField = "nickName", condition = {
-        @Condition(field = "createUsername", paramField = "username")}, useCache = true, cacheTimeout = 60)
+        @Condition(field = "createUsername", paramField = "username")})
     private String createNickName;
 
 }

@@ -9,6 +9,14 @@ package cn.easii.relation;
 public interface RelationCache {
 
     /**
+     * 指定键值是否存在
+     *
+     * @param key 键
+     * @return 指定键值是否存在
+     */
+    boolean hasKey(String key);
+
+    /**
      * 保存缓存
      *
      * @param key   键值

@@ -1,5 +1,6 @@
 package cn.easii.relation.annotation;
 
+import cn.easii.relation.CacheStrategy;
 import cn.easii.relation.Constants;
 import cn.easii.relation.RelationExceptionStrategy;
 import java.lang.annotation.Documented;
@@ -48,11 +49,17 @@ public @interface Relation {
     ConstantsCondition[] constantsCondition() default {};
 
     /**
-     * 使用缓存，默认 false
+     * 缓存策略：
+     * <ul>
+     *     <li>{@link CacheStrategy#ENABLE}: 强制开启缓存</li>
+     *     <li>{@link CacheStrategy#DEFAULT}: 默认，默认情况下以 DataProvider 上配置的为准</li>
+     *     <li>{@link CacheStrategy#DISABLE}: 禁用缓存</li>
+     * </ul>
+     * 当配置为非 {@link CacheStrategy#DEFAULT} 时，对于该类的缓存策略以当前配置为准，否则以 DataProvider 配置为准。
      *
-     * @return boolean
+     * @return {@link CacheStrategy}
      */
-    boolean useCache() default Constants.DefaultUseCache;
+    CacheStrategy cacheStrategy() default CacheStrategy.DEFAULT;
 
     /**
      * 缓存超时时间，单位：s
