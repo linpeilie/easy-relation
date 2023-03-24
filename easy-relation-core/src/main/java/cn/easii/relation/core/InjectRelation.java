@@ -45,6 +45,10 @@ public class InjectRelation {
         this(new DefaultRelationCache(), mapToBeanHandle, new RelationProperties());
     }
 
+    public InjectRelation(final RelationProperties relationProperties) {
+        this(new DefaultRelationCache(), new JsonMapToBeanHandle(), relationProperties);
+    }
+
     public InjectRelation(final RelationCache relationCache,
         final MapToBeanHandle mapToBeanHandle,
         final RelationProperties relationProperties) {
@@ -143,10 +147,6 @@ public class InjectRelation {
 
     private <T> void inject(T t, RelationMeta relationMeta, RelationItemMeta relationItemMeta)
         throws Exception {
-        // 如果已经有值，则不再关联查询
-        if (relationItemMeta.getFieldGetter().invoke(t) != null) {
-            return;
-        }
         // 初始化参数
         Map<String, Object> paramMap = new HashMap<>();
         for (DynamicConditionMeta condition : relationItemMeta.getConditions()) {

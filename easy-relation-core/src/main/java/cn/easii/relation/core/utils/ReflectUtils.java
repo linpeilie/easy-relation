@@ -7,6 +7,13 @@ import java.lang.reflect.Method;
 
 public class ReflectUtils {
 
+    /**
+     * 得到getter
+     *
+     * @param clazz     clazz
+     * @param fieldName 字段名
+     * @return {@link Method}
+     */
     public static Method getGetter(Class<?> clazz, String fieldName) {
         String getMethodName = StrUtil.upperFirstAndAddPre(fieldName, "get");
         final Method getMethod = ReflectUtil.getMethodByNameIgnoreCase(clazz, getMethodName);

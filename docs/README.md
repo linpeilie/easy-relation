@@ -2,7 +2,7 @@
 home: true
 icon: home
 title: 主页
-description: EasyRelation easy relation 数据关联 简单
+description: EasyRelation easy relation 数据关联 简单 easy-relation data-relation data-associate
 heroText: EasyRelation
 tagline: 简单、高效的数据关联框架
 actions:

@@ -3,7 +3,7 @@ title: 定义数据提供者
 order: 2
 category:
 - 指南
-description: EasyRelation 定义数据提供者 DataProvider 指南 Guide
+description: EasyRelation easy-relation 指南 guide 定义数据提供者 DataProvider
 ---
 
 ## 定义数据提供者「DataProvider」

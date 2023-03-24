@@ -1,9 +1,9 @@
 ---
 title: 缓存
-order: 3
+order: 1
 category:
-- 指南
-description: EasyRelation 缓存 Cache 二级缓存
+- 拓展
+description: EasyRelation easy-relation 拓展 extension 缓存 Cache 二级缓存
 ---
 
 ## 缓存分层

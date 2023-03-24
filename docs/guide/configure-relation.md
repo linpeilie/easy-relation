@@ -3,7 +3,7 @@ title: 配置关联关系
 order: 1
 category:
 - 指南
-description: EasyRelation 配置关联关系 ConfigureRelation 指南 Guide
+description: EasyRelation easy-relation 指南 guide 配置关联关系 ConfigureRelation
 ---
 
 ## 基础配置
@@ -325,7 +325,7 @@ class InjectRelationTest {
 但提供的数据提供者返回的是 `User` 类，所以这里需要指定 `targetField` 为 `User#nickName`。
 
 这里需要注意，当需要从一个对象模型中关联多个对象时，并不会查询多次。例如，需要关联用户昵称和用户头像，只能查询一次。
-详情可以查看[缓存](/guide/cache.html)。
+详情可以查看[缓存](/extension/cache.html)。
 
 ## 启用缓存
 
@@ -344,7 +344,7 @@ class InjectRelationTest {
 > 2. 当一个类中有[平铺关联](#关联目标类型属性平铺关联)的场景时，针对于同一个数据提供者，缓存配置要相同！！！如果不同的话，不能够保证最终的缓存策略。
 > 3. 当缓存策略为非 `DEFAULT` 时，以当前属性上面配置的为准，与数据提供者配置的是否启用缓存无关。
 
-具体可参考[缓存](/guide/cache.html)
+具体可参考[缓存](/extension/cache.html)
 
 下面是一个使用缓存的例子：
 
@@ -437,7 +437,7 @@ Article(content=EasyRelation是一个简单、快速、强大的数据自动关�
 2023-03-21 21:39:51req : UserQueryReq(username=admin, userId=null, isDeleted=null)
 ```
 
-## 异常抛出
+## 转换异常
 
 在关联时，如果出现异常，可以手动配置是否将该异常抛出。
 
