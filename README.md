@@ -11,6 +11,7 @@ EasyRelation 是一个简单、高效的自动关联数据框架，可以通过�
 ## 链接地址
 
 - [Gitee](https://gitee.com/easii/easy-relation)
+- [Github](https://github.com/linpeilie/easy-relation)
 - [Document](https://easy-relation.easii.cn)
 
 ## 特点
@@ -29,7 +30,7 @@ EasyRelation 是一个简单、高效的自动关联数据框架，可以通过�
 <dependency>
     <groupId>cn.easii</groupId>
     <artifactId>easy-relation-spring-boot-starter</artifactId>
-    <version>${easy-relation.version}</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 

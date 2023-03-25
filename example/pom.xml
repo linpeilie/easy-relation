@@ -12,7 +12,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <easy-relation.version>1.0-SNAPSHOT</easy-relation.version>
+        <easy-relation.version>1.0.0</easy-relation.version>
         <mapstruct-plus.version>1.2.1</mapstruct-plus.version>
         <spring-boot.version>3.0.2</spring-boot.version>
         <lombok.version>1.18.22</lombok.version>
