@@ -3,7 +3,7 @@ easy:
     default-exception-strategy: WARN
     redis:
       key-prefix: 'easii:'
-      serialize-type: JACKSON
+      serialize-type: jackson
 
 spring:
   data:

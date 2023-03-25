@@ -1,7 +1,9 @@
-package cn.easii.relation.properties;
+package cn.easii.relation.redis;
 
+import cn.easii.relation.Constants;
 import cn.easii.relation.RedisSerializeTypeEnum;
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 public class RelationRedisProperties {

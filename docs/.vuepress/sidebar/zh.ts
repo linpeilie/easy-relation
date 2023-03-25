@@ -17,6 +17,11 @@ export const zhSidebar = sidebar({
             text: '拓展',
             prefix: 'extension/',
             children: 'structure'
+        },
+        {
+            text: '插件',
+            prefix: 'plugins/',
+            children: 'structure'
         }
     ],
 });

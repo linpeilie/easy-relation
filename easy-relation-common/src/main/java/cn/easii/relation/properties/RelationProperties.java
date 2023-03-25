@@ -11,9 +11,4 @@ public class RelationProperties {
      */
     private RelationExceptionStrategy defaultExceptionStrategy = RelationExceptionStrategy.THROW;
 
-    /**
-     * 启用 Redis 缓存时的配置
-     */
-    private RelationRedisProperties redis = new RelationRedisProperties();
-
 }

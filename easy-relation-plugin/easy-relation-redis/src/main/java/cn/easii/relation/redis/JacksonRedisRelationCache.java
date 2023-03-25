@@ -12,13 +12,11 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
 
-@Component
-@ConditionalOnProperty(prefix = Constants.EasyRelation, name = "redis.serialize-type", havingValue = "jackson")
 public class JacksonRedisRelationCache extends AbstractRedisRelationCache {
 
     public JacksonRedisRelationCache(final RedisConnectionFactory redisConnectionFactory,
-        RelationProperties relationProperties) {
-        super(redisConnectionFactory, relationProperties);
+        RelationRedisProperties redisProperties) {
+        super(redisConnectionFactory, redisProperties);
     }
 
     @Override
