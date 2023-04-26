@@ -33,8 +33,7 @@ class RelationMetaStoreTest {
                     fieldSetter.invoke(user, role);
                     Assert.notNull(user.getRole());
                     Assert.equals("Admin", user.getRole().getRoleName());
-                    final Method fieldGetter = item.getFieldGetter();
-                    final Role userRole = (Role) fieldGetter.invoke(user);
+                    final Role userRole = user.getRole();
                     Assert.equals(userRole.getRoleName(), "Admin");
                 } else if ("permissions" .equals(item.getField())) {
 

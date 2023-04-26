@@ -2,7 +2,7 @@
 home: true
 icon: home
 title: 主页
-description: EasyRelation easy relation 数据关联 简单
+description: EasyRelation easy relation 数据关联 简单 easy-relation data-relation data-associate
 heroText: EasyRelation
 tagline: 简单、高效的数据关联框架
 actions:
@@ -38,14 +38,14 @@ copyright: false
 <dependency>
     <groupId>cn.easii</groupId>
     <artifactId>easy-relation-spring-boot-starter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
 - gradle
 
 ```groovy
-implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', version: '1.0-SNAPSHOT'
+implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', version: '1.0.0'
 ```
 
 ## 代码仓库

@@ -12,6 +12,16 @@ export const zhSidebar = sidebar({
             text: "指南",
             prefix: "guide/",
             children: "structure",
+        },
+        {
+            text: '拓展',
+            prefix: 'extension/',
+            children: 'structure'
+        },
+        {
+            text: '插件',
+            prefix: 'plugins/',
+            children: 'structure'
         }
     ],
 });

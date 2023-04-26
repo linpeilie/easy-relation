@@ -2,7 +2,7 @@ package cn.easii.relation.core;
 
 import cn.easii.relation.RelationCache;
 
-class DefaultRelationCache implements RelationCache {
+public class DefaultRelationCache implements RelationCache {
 
     private final ExpireMap<String, Object> expireMap;
 

@@ -13,6 +13,7 @@ public class UserInfoDataProvideHandler implements DataProvideService {
 
     @DataProvider(RelationIdentifiers.getUserByUsername)
     public User getUserByUsername(UserQueryReq req) {
+        System.out.println("req:" + req);
         if (StrUtil.isEmpty(req.getUsername())) {
             throw new IllegalArgumentException("username is empty");
         }

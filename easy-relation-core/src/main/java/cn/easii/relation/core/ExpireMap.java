@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ExpireMap<K, V> {
+class ExpireMap<K, V> {
 
     private final Map<K, V> map;
 

@@ -35,7 +35,7 @@ public class RelationMetaStore {
             final String provider = relation.provider();
             RelationMeta relationMeta = metaMap.putIfAbsent(provider, new RelationMeta(provider));
             relationMeta = relationMeta == null ? metaMap.get(provider) : relationMeta;
-            relationMeta.setCacheStrategy(relationMeta.getCacheStrategy());
+            relationMeta.setCacheStrategy(relation.cacheStrategy());
             relationMeta.addItem(toItemMeta(clazz, field, relation));
         }
         List<RelationMeta> relationMetas = new ArrayList<>(metaMap.values());
@@ -46,7 +46,6 @@ public class RelationMetaStore {
     private static RelationItemMeta toItemMeta(Class<?> clazz, Field field, Relation relation) {
         return RelationItemMeta.builder()
             .field(field.getName())
-            .fieldGetter(ReflectUtils.getGetter(clazz, field.getName()))
             .fieldSetter(ReflectUtils.getSetter(clazz, field.getName()))
             .targetField(relation.targetField())
             .conditions(buildConditions(clazz, relation.condition()))

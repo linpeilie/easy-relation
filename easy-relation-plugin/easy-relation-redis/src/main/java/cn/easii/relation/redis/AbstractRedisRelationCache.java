@@ -12,11 +12,11 @@ public abstract class AbstractRedisRelationCache implements RelationCache {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final RelationProperties relationProperties;
+    private final RelationRedisProperties redisProperties;
 
     public AbstractRedisRelationCache(RedisConnectionFactory redisConnectionFactory,
-        RelationProperties relationProperties) {
-        this.relationProperties = relationProperties;
+        RelationRedisProperties redisProperties) {
+        this.redisProperties = redisProperties;
         this.redisTemplate = getRedisTemplate(redisConnectionFactory);
     }
 
@@ -36,13 +36,13 @@ public abstract class AbstractRedisRelationCache implements RelationCache {
     protected abstract RedisSerializer valueSerializer();
 
     private String getKey(String key) {
-        return relationProperties.getRedis().getKeyPrefix() == null ? key :
-               relationProperties.getRedis().getKeyPrefix() + key;
+        return redisProperties.getKeyPrefix() == null ? key :
+               redisProperties.getKeyPrefix() + key;
     }
 
     @Override
     public boolean hasKey(final String key) {
-        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+        return Boolean.TRUE.equals(redisTemplate.hasKey(getKey(key)));
     }
 
     @Override

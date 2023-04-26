@@ -5,7 +5,7 @@ category:
 - 介绍 
 tag:
 - 安装
-description: EasyRelation 安装 依赖 install
+description: EasyRelation easy-relation 介绍 introduction 安装 依赖 install
 ---
 
 ## 非 SpringBoot 环境
