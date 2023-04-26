@@ -65,7 +65,7 @@ public class Order {
 
     // ......
 
-    @Relation(handler = RelationIdentifiers.getUserByUsername, targetField = "nickName",
+    @Relation(provider = RelationIdentifiers.getUserByUsername, targetField = "nickName",
         condition = {@Condition(field = "username")})
     private String nickName;
 

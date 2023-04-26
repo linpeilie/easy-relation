@@ -62,13 +62,6 @@ public @interface Relation {
     CacheStrategy cacheStrategy() default CacheStrategy.DEFAULT;
 
     /**
-     * 缓存超时时间，单位：s
-     *
-     * @return int
-     */
-    int cacheTimeout() default Constants.DefaultCacheTime;
-
-    /**
      * 当数据关联出现异常时的处理策略，默认在 RelationProperties 配置
      *
      * @return {@link RelationExceptionStrategy}

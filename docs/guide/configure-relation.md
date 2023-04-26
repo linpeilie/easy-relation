@@ -20,7 +20,7 @@ public class User {
 
     private String nickName;
 
-    @Relation(handler = "getRoleByUsername", condition = {@Condition(field = "username")})
+    @Relation(provider = "getRoleByUsername", condition = {@Condition(field = "username")})
     private Role role;
 
 }
@@ -62,7 +62,7 @@ public class Order {
 
     private String username;
 
-    @Relation(handler = RelationIdentifiers.getUserByUsername, targetField = "nickName",
+    @Relation(provider = RelationIdentifiers.getUserByUsername, targetField = "nickName",
         condition = {
             @Condition(field = "username"),
             @Condition(field = "source")
@@ -163,7 +163,7 @@ public class User {
 
     private String username;
 
-    @Relation(handler = RelationIdentifiers.getPermissionsByUsername, condition = {
+    @Relation(provider = RelationIdentifiers.getPermissionsByUsername, condition = {
         @Condition(field = "username")}, constantsCondition = {@ConstantsCondition(field = "state", value = "1")})
     private List<Permission> permissions;
     
@@ -264,7 +264,7 @@ public class User {
 
     private String username;
 
-    @Relation(handler = "getRoleByUsername", condition = {@Condition(field = "username")})
+    @Relation(provider = "getRoleByUsername", condition = {@Condition(field = "username")})
     private Role role;
 
 }
@@ -360,7 +360,7 @@ public class Article {
 
     private String authorUsername;
 
-    @Relation(handler = RelationIdentifiers.getUserByUsername, condition = {
+    @Relation(provider = RelationIdentifiers.getUserByUsername, condition = {
         @Condition(field = "authorUsername", paramField = "username")}, targetField = "nickName",
         cacheStrategy = CacheStrategy.ENABLE)
     private String nickName;
