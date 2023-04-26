@@ -98,7 +98,6 @@ public class UserInfoDataProvider implements DataProvideService {
 
 ```java
 @Data
-@AutoMapMapper
 public class UserQueryReq {
 
     private String username;
