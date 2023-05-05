@@ -1,11 +1,9 @@
 package cn.easii.relation;
 
-import cn.easii.relation.core.DataProviderRepository;
 import cn.easii.relation.core.DataProvideService;
-import java.util.Map;
+import cn.easii.relation.core.DataProviderRepository;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -13,13 +11,13 @@ import org.springframework.context.annotation.Import;
 @Import({EasyDataProviderInitializationConfiguration.Register.class})
 public class EasyDataProviderInitializationConfiguration {
 
-    static class Register implements BeanFactoryPostProcessor {
+    static class Register implements BeanPostProcessor {
         @Override
-        public void postProcessBeanFactory(final ConfigurableListableBeanFactory configurableListableBeanFactory)
-            throws BeansException {
-            final Map<String, DataProvideService> relationService =
-                configurableListableBeanFactory.getBeansOfType(DataProvideService.class);
-            relationService.values().forEach(DataProviderRepository::registerProvider);
+        public Object postProcessAfterInitialization(final Object bean, final String beanName) throws BeansException {
+            if (DataProvideService.class.isAssignableFrom(bean.getClass())) {
+                DataProviderRepository.registerProvider((DataProvideService) bean);
+            }
+            return bean;
         }
     }
 
