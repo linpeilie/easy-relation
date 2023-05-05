@@ -30,7 +30,7 @@ EasyRelation 是一个简单、高效的自动关联数据框架，可以通过�
 <dependency>
     <groupId>cn.easii</groupId>
     <artifactId>easy-relation-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 

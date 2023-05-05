@@ -38,14 +38,14 @@ copyright: false
 <dependency>
     <groupId>cn.easii</groupId>
     <artifactId>easy-relation-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 - gradle
 
 ```groovy
-implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', version: '1.0.0'
+implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', version: '1.1.0'
 ```
 
 ## 代码仓库
