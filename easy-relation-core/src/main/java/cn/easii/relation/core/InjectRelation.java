@@ -19,6 +19,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class InjectRelation {
         cachedInvoke(() -> injectOn(t, relationFields));
     }
 
-    public <T> void injectRelation(List<T> list, String... relationFields) {
+    public <T> void injectRelation(Collection<T> list, String... relationFields) {
         cachedInvoke(() -> list.forEach(t -> {
             openSessionCache();
             injectOn(t, relationFields);
