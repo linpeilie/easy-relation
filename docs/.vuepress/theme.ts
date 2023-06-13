@@ -3,7 +3,7 @@ import { zhNavbar } from "./navbar";
 import { zhSidebar } from "./sidebar";
 
 export default hopeTheme({
-  hostname: "https://easy-relation.easii.cn",
+  hostname: "https://easii.gitee.io/easy-relation",
   // 是否显示打印按钮
   print: false,
 

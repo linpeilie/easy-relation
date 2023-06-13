@@ -2,4 +2,4 @@
 User-agent:*
 Disallow:
 
-Sitemap: https://easy-relation.easii.cn/sitemap.xml
+Sitemap: https://easii.gitee.io/easy-relation/easy-relation/sitemap.xml
