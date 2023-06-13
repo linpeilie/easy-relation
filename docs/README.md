@@ -26,6 +26,10 @@ features:
 copyright: false
 ---
 
+## 国内站点
+
+- [EasyRelation](https://easii.gitee.io/easy-relation)
+
 ## 其他开源项目
 
 - [MapStructPlus](https://mapstruct.plus)：可能是最简单、强大的 Java Bean 转换工具
@@ -38,15 +42,22 @@ copyright: false
 <dependency>
     <groupId>cn.easii</groupId>
     <artifactId>easy-relation-spring-boot-starter</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
 - gradle
 
 ```groovy
-implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', version: '1.1.0'
+implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', version: '1.1.1'
 ```
+
+## 更新日志
+
+### 1.1.1
+
+- 更新 MapStructPlus 版本 1.2.1 --> 1.2.5
+- 添加自动关联数据功能
 
 ## 代码仓库
 
@@ -60,5 +71,15 @@ implementation group: 'cn.easii', name: 'easy-relation-spring-boot-starter', ver
 
 ## 联系我
 
-![Wechat --- Clue8a796d01](/assets/contact-me.png =346x403)
+> 个人网站：[代码笔耕](https://easii.gitee.io)
+
+> vx : Clue8a796d01
+
+![Clue8a796d01](https://img-1318183505.cos.ap-nanjing.myqcloud.com/20230609091707.webp)
+
+> 公众号：**代码笔耕**
+
+![代码笔耕](https://img-1318183505.cos.ap-nanjing.myqcloud.com/qrcode_for_gh_c207b35e04b8_344.webp)
+
+
 
