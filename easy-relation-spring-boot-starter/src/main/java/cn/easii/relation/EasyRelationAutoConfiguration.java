@@ -9,11 +9,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan("cn.easii.relation")
 @Import(EasyDataProviderInitializationConfiguration.class)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class EasyRelationAutoConfiguration {
 
     @Bean
@@ -40,6 +42,11 @@ public class EasyRelationAutoConfiguration {
         MapToBeanHandle mapToBeanHandle,
         RelationProperties relationProperties) {
         return new InjectRelation(relationCache, mapToBeanHandle, relationProperties);
+    }
+
+    @Bean
+    public AutoRelationAspect autoRelationAspect(InjectRelation injectRelation) {
+        return new AutoRelationAspect(injectRelation);
     }
 
 }

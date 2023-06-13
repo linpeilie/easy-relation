@@ -13,12 +13,14 @@ EasyRelation 是一个简单、高效的自动关联数据框架，可以通过�
 - [Gitee](https://gitee.com/easii/easy-relation)
 - [Github](https://github.com/linpeilie/easy-relation)
 - [Document](https://easy-relation.easii.cn)
+- [Document国内站点](https://easii.gitee.io/easy-relation)
 
 ## 特点
 
 - 不限制关联查询方式，需要关联的数据可以是任意来源
 - 两级缓存支持，可自由选择使用的缓存
 - 执行效率高，对性能影响极小
+- 支持自动关联（since 1.1.1）
 
 ## 快速开始
 
@@ -109,6 +111,13 @@ class InjectRelationTest {
 
 ## 联系我
 
+> 个人网站：[代码笔耕](https://easii.gitee.io)
+
 > vx : Clue8a796d01
 
-<img src="https://raw.githubusercontent.com/linpeilie/mapstruct-plus/main/assets/contact-me.jpeg" alt="联系我" width="364" height="497" />
+![Clue8a796d01](https://img-1318183505.cos.ap-nanjing.myqcloud.com/20230609091707.webp)
+
+> 公众号：**代码笔耕**
+
+![代码笔耕](https://img-1318183505.cos.ap-nanjing.myqcloud.com/qrcode_for_gh_c207b35e04b8_344.webp)
+
