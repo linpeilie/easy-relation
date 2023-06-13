@@ -1,0 +1,5 @@
+
+User-agent:*
+Disallow:
+
+Sitemap: https://easy-relation.easii.cn/sitemap.xml
